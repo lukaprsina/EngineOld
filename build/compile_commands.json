@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -g -std=gnu++17 -Winvalid-pch -x c++-header -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch -c /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.cxx",
+  "file": "/home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Core/Application.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Core/Application.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Core/Application.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/VulkanAPI.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/VulkanAPI.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/GLFW/GLFW.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/GLFW/GLFW.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/GLFW/GLFWSetCallbacks.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/GLFW/GLFWSetCallbacks.cpp"
+}
+]

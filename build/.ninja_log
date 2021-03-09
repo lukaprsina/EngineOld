@@ -1,0 +1,19 @@
+# ninja log v5
+0	266	1615314081954062075	Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o	99ee491b9196aa06
+0	246	1615313259313861483	Engine/CMakeFiles/Engine.dir/src/Core/Application.cpp.o	7d44f45d9dc2130f
+0	1036	1615311326498369607	Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch	7aababedc7abab4
+0	203	1615314247136096772	build.ninja	38ab1ab840f6217f
+1036	1187	1615311326651702368	Engine/CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o	9df51a82fe4217ca
+1	1020	1615222894593533889	CMakeFiles/Engine.dir/cmake_pch.hxx.gch	18ec1f228d70a8fc
+0	1267	1615310734902880564	CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o	e6ffe6e94486eb5
+0	110	1615310837153614221	CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o	d2234a405fa375f3
+0	176	1615310780308404799	CMakeFiles/Engine.dir/src/Core/Application.cpp.o	3f7c54a677ef8686
+0	203	1615314081890729171	Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o	9b389941618d656d
+266	337	1615314082027394912	bin/Engine	579677c45ba4352c
+0	10	0	clean	a31eedcededa8236
+0	1241	1615314253719371704	Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch	4f12216987cd722f
+1242	1409	1615314253892703495	Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o	c33f358711f02b9d
+1242	1432	1615314253916036619	Engine/CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o	23ab0ca761f1d7a9
+1241	1493	1615314253976036086	Engine/CMakeFiles/Engine.dir/src/Core/Application.cpp.o	d96ad29c3129dea1
+1242	1499	1615314253982702693	Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o	67df2f283223246a
+1499	1583	1615314254066035283	bin/Engine	579677c45ba4352c
