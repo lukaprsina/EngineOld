@@ -1,10 +1,9 @@
 #include "Vulkan/VulkanAPI.h"
 #include "version.h"
-#include "GLFW/GLFW.h"
 
 namespace eng
 {
-    void VulkanAPI::createInstance()
+    void VulkanAPI::createInstance(GLFW &glfw)
     {
         // TODO: get app version and name
         VkApplicationInfo appInfo{};
@@ -21,12 +20,19 @@ namespace eng
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        uint32_t glfwExtensionCount = 0;
         const char **glfwExtensions;
+        uint32_t glfwExtensionCount = 0;
 
-        // GLFW::GetRequiredInstanceExtensions(glfwExtensions, glfwExtensionCount);
+        glfw.GetRequiredInstanceExtensions(glfwExtensions, glfwExtensionCount);
 
         createInfo.enabledExtensionCount = glfwExtensionCount;
         createInfo.ppEnabledExtensionNames = glfwExtensions;
+
+        createInfo.enabledLayerCount = 0;
+
+        if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+        {
+            throw std::runtime_error("failed to create instance!");
+        }
     }
 }

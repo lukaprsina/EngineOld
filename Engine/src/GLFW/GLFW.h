@@ -26,7 +26,7 @@ namespace eng
         void OnUpdate();
         inline void SetEventCallback(const std::function<void(Event &)> &callback) { m_WindowSettings.EventCallback = callback; }
 
-        void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount = 0);
+        void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount);
 
     private:
         GLFWwindow *m_Window;

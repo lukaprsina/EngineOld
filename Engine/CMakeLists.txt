@@ -1,6 +1,9 @@
 add_executable(Engine
     "src/Core/Application.cpp"
+    
     "src/Vulkan/VulkanAPI.cpp"
+    "src/Vulkan/VkInstance.cpp"
+
     "src/GLFW/GLFW.cpp"
     "src/GLFW/GLFWSetCallbacks.cpp"
     )

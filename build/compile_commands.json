@@ -96,6 +96,11 @@
 },
 {
   "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkInstance.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/VkInstance.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/VkInstance.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
   "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/GLFW/GLFW.cpp",
   "file": "/home/luka/dev/c++/Engine/Engine/src/GLFW/GLFW.cpp"
 },

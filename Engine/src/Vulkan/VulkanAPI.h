@@ -8,11 +8,11 @@ namespace eng
     class VulkanAPI
     {
     public:
-        VulkanAPI();
+        VulkanAPI(GLFW &glfw);
         ~VulkanAPI();
 
     private:
-        void createInstance();
+        void createInstance(GLFW &glfw);
         VkInstance instance;
     };
 }

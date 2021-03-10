@@ -3,9 +3,9 @@
 
 namespace eng
 {
-    VulkanAPI::VulkanAPI()
+    VulkanAPI::VulkanAPI(GLFW &glfw)
     {
-        createInstance();
+        createInstance(glfw);
     }
 
     VulkanAPI::~VulkanAPI()

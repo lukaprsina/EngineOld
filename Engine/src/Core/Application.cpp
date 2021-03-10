@@ -7,7 +7,7 @@
 namespace eng
 {
     Application::Application()
-        : m_Running(true), m_GLFW({"Test", 800, 600})
+        : m_Running(true), m_GLFW({"Test", 800, 600}), m_VkAPI(m_GLFW)
     {
         m_GLFW.SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
     }

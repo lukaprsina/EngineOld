@@ -36,7 +36,7 @@ namespace eng
         glfwPollEvents();
     }
 
-    static void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount)
+    void GLFW::GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount)
     {
         GLFWExtensions = glfwGetRequiredInstanceExtensions(&GLFWExtensionCount);
     }
