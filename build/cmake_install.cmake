@@ -44,6 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/home/luka/dev/c++/Engine/build/Engine/vendor/GLFW/cmake_install.cmake")
   include("/home/luka/dev/c++/Engine/build/Engine/cmake_install.cmake")
 
 endif()

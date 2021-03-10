@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 #include "Events/Event.h"
 
 namespace eng
@@ -23,6 +24,7 @@ namespace eng
         ~GLFW();
 
         void OnUpdate();
+        inline void SetEventCallback(const std::function<void(Event &)> &callback) { m_WindowSettings.EventCallback = callback; }
 
     private:
         GLFWwindow *m_Window;

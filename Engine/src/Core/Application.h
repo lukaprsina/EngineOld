@@ -3,6 +3,8 @@
 #include "GLFW/GLFW.h"
 #include "Vulkan/VulkanAPI.h"
 
+#include "Events/ApplicationEvent.h"
+
 namespace eng
 {
     class Application
@@ -11,11 +13,9 @@ namespace eng
         Application();
         ~Application();
 
-        Application(const Application *&) = delete;
-        Application &operator=(const Application *&) = delete;
-
         void Run();
-        bool OnWindowClose();
+        void OnEvent(Event &e);
+        bool OnWindowClose(WindowCloseEvent &e);
 
     private:
         bool m_Running;

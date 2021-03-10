@@ -21,9 +21,9 @@ namespace eng
 
         m_Window = glfwCreateWindow(m_WindowSettings.Width, m_WindowSettings.Height, m_WindowSettings.Title.c_str(), nullptr, nullptr);
 
-        //glfwSetWindowUserPointer(m_Window, &m_WindowSettings);
+        glfwSetWindowUserPointer(m_Window, &m_WindowSettings);
 
-        //SetCallbacks();
+        SetCallbacks();
     }
 
     GLFW::~GLFW()
