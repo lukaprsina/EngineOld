@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+#include "GLFW/GLFW.h"
 
 namespace eng
 {
@@ -11,5 +12,7 @@ namespace eng
         ~VulkanAPI();
 
     private:
+        void createInstance();
+        VkInstance instance;
     };
 }

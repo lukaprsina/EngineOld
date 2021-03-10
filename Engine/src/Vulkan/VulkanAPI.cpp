@@ -5,6 +5,7 @@ namespace eng
 {
     VulkanAPI::VulkanAPI()
     {
+        createInstance();
     }
 
     VulkanAPI::~VulkanAPI()

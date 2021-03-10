@@ -17,7 +17,6 @@ namespace eng
         glfwSetErrorCallback(GLFWErrorCallback);
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         m_Window = glfwCreateWindow(m_WindowSettings.Width, m_WindowSettings.Height, m_WindowSettings.Title.c_str(), nullptr, nullptr);
 
@@ -35,5 +34,10 @@ namespace eng
     void GLFW::OnUpdate()
     {
         glfwPollEvents();
+    }
+
+    static void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount)
+    {
+        GLFWExtensions = glfwGetRequiredInstanceExtensions(&GLFWExtensionCount);
     }
 }
