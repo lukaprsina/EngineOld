@@ -3,6 +3,8 @@ add_executable(Engine
     
     "src/Vulkan/VulkanAPI.cpp"
     "src/Vulkan/VkInstance.cpp"
+    "src/Vulkan/VkCleanup.cpp"
+    "src/Vulkan/IsSubset.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/GLFWSetCallbacks.cpp"

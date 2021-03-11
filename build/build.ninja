@@ -601,6 +601,20 @@ build Engine/CMakeFiles/Engine.dir/src/Vulkan/VkInstance.cpp.o: CXX_COMPILER__En
   OBJECT_DIR = Engine/CMakeFiles/Engine.dir
   OBJECT_FILE_DIR = Engine/CMakeFiles/Engine.dir/src/Vulkan
 
+build Engine/CMakeFiles/Engine.dir/src/Vulkan/VkCleanup.cpp.o: CXX_COMPILER__Engine_Debug ../Engine/src/Vulkan/VkCleanup.cpp | Engine/CMakeFiles/Engine.dir/cmake_pch.hxx Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_Engine
+  DEP_FILE = Engine/CMakeFiles/Engine.dir/src/Vulkan/VkCleanup.cpp.o.d
+  FLAGS = -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx
+  INCLUDES = -I../Engine/src -I../Engine/vendor/GLFW/include
+  OBJECT_DIR = Engine/CMakeFiles/Engine.dir
+  OBJECT_FILE_DIR = Engine/CMakeFiles/Engine.dir/src/Vulkan
+
+build Engine/CMakeFiles/Engine.dir/src/Vulkan/IsSubset.cpp.o: CXX_COMPILER__Engine_Debug ../Engine/src/Vulkan/IsSubset.cpp | Engine/CMakeFiles/Engine.dir/cmake_pch.hxx Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_Engine
+  DEP_FILE = Engine/CMakeFiles/Engine.dir/src/Vulkan/IsSubset.cpp.o.d
+  FLAGS = -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx
+  INCLUDES = -I../Engine/src -I../Engine/vendor/GLFW/include
+  OBJECT_DIR = Engine/CMakeFiles/Engine.dir
+  OBJECT_FILE_DIR = Engine/CMakeFiles/Engine.dir/src/Vulkan
+
 build Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o: CXX_COMPILER__Engine_Debug ../Engine/src/GLFW/GLFW.cpp | Engine/CMakeFiles/Engine.dir/cmake_pch.hxx Engine/CMakeFiles/Engine.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_Engine
   DEP_FILE = Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o.d
   FLAGS = -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx
@@ -623,7 +637,7 @@ build Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o: CXX_COMPILER
 #############################################
 # Link the executable bin/Engine
 
-build bin/Engine: CXX_EXECUTABLE_LINKER__Engine_Debug Engine/CMakeFiles/Engine.dir/src/Core/Application.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkInstance.cpp.o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o | bin/libglfw3.a /usr/lib/librt.so /usr/lib/libm.so || bin/libglfw3.a
+build bin/Engine: CXX_EXECUTABLE_LINKER__Engine_Debug Engine/CMakeFiles/Engine.dir/src/Core/Application.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/VulkanAPI.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkInstance.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkCleanup.cpp.o Engine/CMakeFiles/Engine.dir/src/Vulkan/IsSubset.cpp.o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFW.cpp.o Engine/CMakeFiles/Engine.dir/src/GLFW/GLFWSetCallbacks.cpp.o | bin/libglfw3.a /usr/lib/librt.so /usr/lib/libm.so || bin/libglfw3.a
   FLAGS = -g
   LINK_LIBRARIES = bin/libglfw3.a  -lvulkan  -lpthread  /usr/lib/librt.so  -lm  -ldl
   OBJECT_DIR = Engine/CMakeFiles/Engine.dir
