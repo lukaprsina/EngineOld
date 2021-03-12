@@ -9,6 +9,7 @@ namespace eng
         : validationLayers({"VK_LAYER_KHRONOS_validation"})
     {
         CreateInstance(glfw);
+        SetupDebugMessenger();
     }
 
     VulkanAPI::~VulkanAPI()

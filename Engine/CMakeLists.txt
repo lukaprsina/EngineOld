@@ -2,9 +2,12 @@ add_executable(Engine
     "src/Core/Application.cpp"
     
     "src/Vulkan/VulkanAPI.cpp"
-    "src/Vulkan/VkInstance.cpp"
-    "src/Vulkan/VkCleanup.cpp"
+    "src/Vulkan/Instance.cpp"
+    "src/Vulkan/Cleanup.cpp"
+    "src/Vulkan/Extensions.cpp"
+    "src/Vulkan/ValidationLayers.cpp"
     "src/Vulkan/IsSubset.cpp"
+    "src/Vulkan/DebugCallback.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/GLFWSetCallbacks.cpp"

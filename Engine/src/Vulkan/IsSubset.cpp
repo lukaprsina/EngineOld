@@ -4,13 +4,13 @@ namespace eng
 {
 
     template <typename S, typename A>
-    bool IsSubset(S &subset, const uint16_t &subsetCount, A &array, const uint16_t &arrayCount) { return false; }
+    bool IsSubset(S &subset, const uint32_t subsetCount, A &array, const uint32_t arrayCount) { return false; }
 
     template <>
-    bool VulkanAPI::IsSubset<const char **, std::vector<VkExtensionProperties>>(const char **&glfwExtensions,
-                                                                                const uint16_t &glfwExtensionCount,
-                                                                                std::vector<VkExtensionProperties> &extensions,
-                                                                                const uint16_t &extensionCount)
+    bool VulkanAPI::IsSubset<std::vector<const char *>, std::vector<VkExtensionProperties>>(std::vector<const char *> &glfwExtensions,
+                                                                                            const uint32_t glfwExtensionCount,
+                                                                                            std::vector<VkExtensionProperties> &extensions,
+                                                                                            const uint32_t extensionCount)
     {
         int i;
         int j;
@@ -33,10 +33,10 @@ namespace eng
     }
 
     template <>
-    bool VulkanAPI::IsSubset<const std::vector<const char *>, std::vector<VkLayerProperties>>(const std::vector<const char *> &validationLayers,
-                                                                                              const uint16_t &validationLayerCount,
+    bool VulkanAPI::IsSubset<std::vector<char const *> const, std::vector<VkLayerProperties>>(std::vector<char const *> const &validationLayers,
+                                                                                              const uint32_t validationLayerCount,
                                                                                               std::vector<VkLayerProperties> &availableLayers,
-                                                                                              const uint16_t &availableLayerCount)
+                                                                                              const uint32_t availableLayerCount)
     {
         {
             int i;

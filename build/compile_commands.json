@@ -96,18 +96,33 @@
 },
 {
   "directory": "/home/luka/dev/c++/Engine/build",
-  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkInstance.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/VkInstance.cpp",
-  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/VkInstance.cpp"
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/Instance.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/Instance.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/Instance.cpp"
 },
 {
   "directory": "/home/luka/dev/c++/Engine/build",
-  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/VkCleanup.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/VkCleanup.cpp",
-  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/VkCleanup.cpp"
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/Cleanup.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/Cleanup.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/Cleanup.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/Extensions.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/Extensions.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/Extensions.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/ValidationLayers.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/ValidationLayers.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/ValidationLayers.cpp"
 },
 {
   "directory": "/home/luka/dev/c++/Engine/build",
   "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/IsSubset.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/IsSubset.cpp",
   "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/IsSubset.cpp"
+},
+{
+  "directory": "/home/luka/dev/c++/Engine/build",
+  "command": "/usr/bin/c++ -I../Engine/src -I../Engine/vendor/GLFW/include -g -std=gnu++17 -Winvalid-pch -include /home/luka/dev/c++/Engine/build/Engine/CMakeFiles/Engine.dir/cmake_pch.hxx -o Engine/CMakeFiles/Engine.dir/src/Vulkan/DebugCallback.cpp.o -c /home/luka/dev/c++/Engine/Engine/src/Vulkan/DebugCallback.cpp",
+  "file": "/home/luka/dev/c++/Engine/Engine/src/Vulkan/DebugCallback.cpp"
 },
 {
   "directory": "/home/luka/dev/c++/Engine/build",

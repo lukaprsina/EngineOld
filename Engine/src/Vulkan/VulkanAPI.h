@@ -16,7 +16,9 @@ namespace eng
         void CreateInstance(GLFW &glfw);
 
         template <typename S, typename A>
-        bool IsSubset(S &subset, const uint16_t &subsetCount, A &array, const uint16_t &arrayCount);
+        bool IsSubset(S &subset, const uint32_t subsetCount, A &array, const uint32_t arrayCount);
+
+        std::vector<const char *> getRequiredExtensions(GLFW &glfw);
 
 #ifdef NDEBUG
         const bool enableValidationLayers = false;
@@ -25,6 +27,14 @@ namespace eng
 #endif
 
         const std::vector<const char *> validationLayers;
+        bool checkValidationLayerSupport();
+
+        VkDebugUtilsMessengerEXT debugMessenger;
+
+        // TODO: another class for loaded functions
+        VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
+        void SetupDebugMessenger();
 
         void Cleanup();
     };
