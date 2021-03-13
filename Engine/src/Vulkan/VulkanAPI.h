@@ -5,6 +5,17 @@
 
 namespace eng
 {
+    struct DeviceIndices
+    {
+        VkPhysicalDevice device;
+        std::optional<uint32_t> graphicsFamily;
+
+        bool isComplete()
+        {
+            return graphicsFamily.has_value();
+        }
+    };
+
     class VulkanAPI
     {
     public:
@@ -37,24 +48,14 @@ namespace eng
         void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
         void SetupDebugMessenger();
 
-        VkPhysicalDevice physicalDevice;
+        DeviceIndices GPUProperties;
         void PickPhysicalDevice();
-        uint32_t ScorePhysicalDevice(VkPhysicalDevice device);
 
-        struct QueueFamilyIndices
-        {
-            std::optional<uint32_t> graphicsFamily;
-
-            bool isOkay()
-            {
-                return graphicsFamily.has_value();
-            }
-        };
-
-        struct QueueFamilyIndices physicalDeviceIndices;
-        uint32_t ScoreQueueFamilies(VkPhysicalDevice device, QueueFamilyIndices &indices);
+        DeviceIndices GetQueueFamilies(VkPhysicalDevice device);
+        uint32_t ScorePhysicalDevice(DeviceIndices &indices);
 
         VkDevice logicalDevice;
+        VkQueue graphicsQueue;
         void CreateLogicalDevice();
 
         void Cleanup();

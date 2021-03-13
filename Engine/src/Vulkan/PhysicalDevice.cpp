@@ -1,5 +1,6 @@
 #include "Vulkan/VulkanAPI.h"
 
+// TODO: for loop &
 namespace eng
 {
     void VulkanAPI::PickPhysicalDevice()
@@ -17,48 +18,40 @@ namespace eng
         devices.resize(deviceCount);
         vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
-        uint32_t maxScore = 0;
-        uint32_t currentScore;
-        VkPhysicalDevice bestDevice;
-        QueueFamilyIndices indices;
+        std::multimap<int, DeviceIndices> candidates;
 
         for (const auto &device : devices)
         {
-            currentScore = ScorePhysicalDevice(device, indices);
+            DeviceIndices indices = GetQueueFamilies(device);
+            int score = ScorePhysicalDevice(indices);
 
-            if (!indices.isOkay())
-                throw std::runtime_error("the GPU can't run this program!");
-
-            if (currentScore > maxScore)
-            {
-                bestDevice = device;
-                maxScore = currentScore;
-            }
+            candidates.insert(std::make_pair(score, indices));
         }
 
-        if (maxScore == 0)
-            throw std::runtime_error("failed to find a suitable GPU!");
+        if (candidates.rbegin()->first > 0)
+        {
+            GPUProperties = candidates.rbegin()->second;
+        }
         else
-            physicalDevice = bestDevice;
+        {
+            throw std::runtime_error("failed to find a suitable GPU!");
+        }
     }
 
-    uint32_t VulkanAPI::ScorePhysicalDevice(VkPhysicalDevice device, QueueFamilyIndices &indices)
+    uint32_t VulkanAPI::ScorePhysicalDevice(DeviceIndices &indices)
     {
-        // TODO: score more parameters
         uint32_t score = 0;
         VkPhysicalDeviceProperties deviceProperties;
-        vkGetPhysicalDeviceProperties(device, &deviceProperties);
+        vkGetPhysicalDeviceProperties(indices.device, &deviceProperties);
 
         VkPhysicalDeviceFeatures deviceFeatures;
-        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+        vkGetPhysicalDeviceFeatures(indices.device, &deviceFeatures);
 
         VkPhysicalDeviceMemoryProperties memoryProperties;
-        vkGetPhysicalDeviceMemoryProperties(device, &memoryProperties);
+        vkGetPhysicalDeviceMemoryProperties(indices.device, &memoryProperties);
 
         if (!deviceFeatures.geometryShader)
             return 0;
-
-        score += ScoreQueueFamilies(device, indices);
 
         if (deviceProperties.deviceType = VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
             score += 1000;
