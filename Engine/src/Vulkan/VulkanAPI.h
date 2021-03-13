@@ -9,10 +9,11 @@ namespace eng
     {
         VkPhysicalDevice device;
         std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
 
         bool isComplete()
         {
-            return graphicsFamily.has_value();
+            return graphicsFamily.has_value() && presentFamily.has_value();
         }
     };
 
@@ -41,12 +42,18 @@ namespace eng
         bool checkValidationLayerSupport();
 
         // TODO: another class for loaded functions
+        // TODO: & for all function calls
+        // TODO: private members m_ convention
+
         VkDebugUtilsMessengerEXT debugMessenger;
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
         void PopulateDebugMessenger();
         VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
         void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
         void SetupDebugMessenger();
+
+        VkSurfaceKHR surface;
+        void CreateSurface(GLFW &glfw);
 
         DeviceIndices GPUProperties;
         void PickPhysicalDevice();
@@ -56,6 +63,7 @@ namespace eng
 
         VkDevice logicalDevice;
         VkQueue graphicsQueue;
+        VkQueue presentQueue;
         void CreateLogicalDevice();
 
         void Cleanup();

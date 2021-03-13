@@ -10,6 +10,7 @@ namespace eng
     {
         CreateInstance(glfw);
         SetupDebugMessenger();
+        glfw.CreateWindowSurface(instance, surface);
         PickPhysicalDevice();
         CreateLogicalDevice();
     }
