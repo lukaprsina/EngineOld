@@ -64,6 +64,7 @@ namespace eng
         VkDevice logicalDevice;
         VkQueue graphicsQueue;
         VkQueue presentQueue;
+        std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
         void CreateLogicalDevice();
 
         void Cleanup();

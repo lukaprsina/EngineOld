@@ -53,9 +53,9 @@ namespace eng
         if (!deviceFeatures.geometryShader)
             return 0;
 
-        if (deviceProperties.deviceType = VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+        if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
             score += 1000;
-        else if (deviceProperties.deviceType = VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)
+        else if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)
             score += 100;
 
         auto heapsPointer = memoryProperties.memoryHeaps;

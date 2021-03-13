@@ -24,6 +24,10 @@ target_include_directories(Engine
 target_precompile_headers(Engine
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h
 	)
+    
+target_compile_options(Engine
+    PRIVATE -Wall -Wextra -pedantic #-Werror
+    )
 
 target_link_libraries(Engine
     PRIVATE glfw
