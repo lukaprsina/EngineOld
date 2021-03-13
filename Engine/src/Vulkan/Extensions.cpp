@@ -2,7 +2,7 @@
 
 namespace eng
 {
-    std::vector<const char *> VulkanAPI::getRequiredExtensions(GLFW &glfw)
+    std::vector<const char *> VulkanAPI::GetInstanceExtensions(GLFW &glfw)
     {
         const char **glfwExtensions;
         uint32_t glfwExtensionsCount = 0;
@@ -30,5 +30,16 @@ namespace eng
         }
 
         return requiredExtensions;
+    }
+
+    bool VulkanAPI::CheckDeviceExtensionSupport(VkPhysicalDevice device)
+    {
+        uint32_t extensionCount;
+        std::vector<VkExtensionProperties> availableExtensions;
+        vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+        availableExtensions.resize(extensionCount);
+        vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+        return IsSubset(deviceExtensions, deviceExtensions.size(), availableExtensions, availableExtensions.size());
     }
 }

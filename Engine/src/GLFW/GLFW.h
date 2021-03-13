@@ -13,7 +13,7 @@ namespace eng
 
         bool focused = true;
 
-        std::function<void(Event &)> EventCallback;
+        std::function<void(Event &)> EventCallback = nullptr;
     };
 
     class GLFW

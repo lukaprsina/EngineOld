@@ -6,7 +6,7 @@
 namespace eng
 {
     VulkanAPI::VulkanAPI(GLFW &glfw)
-        : validationLayers({"VK_LAYER_KHRONOS_validation"})
+        : deviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), validationLayers({"VK_LAYER_KHRONOS_validation"})
     {
         CreateInstance(glfw);
         SetupDebugMessenger();

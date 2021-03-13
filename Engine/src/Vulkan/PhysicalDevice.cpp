@@ -50,7 +50,7 @@ namespace eng
         VkPhysicalDeviceMemoryProperties memoryProperties;
         vkGetPhysicalDeviceMemoryProperties(indices.device, &memoryProperties);
 
-        if (!deviceFeatures.geometryShader)
+        if (!deviceFeatures.geometryShader || !CheckDeviceExtensionSupport(indices.device))
             return 0;
 
         if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)

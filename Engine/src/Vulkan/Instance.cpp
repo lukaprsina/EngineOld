@@ -21,12 +21,12 @@ namespace eng
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        std::vector<const char *> requiredExtensions = getRequiredExtensions(glfw);
+        std::vector<const char *> requiredExtensions = GetInstanceExtensions(glfw);
 
         createInfo.enabledExtensionCount = requiredExtensions.size();
         createInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
-        if (enableValidationLayers && !checkValidationLayerSupport())
+        if (enableValidationLayers && !CheckValidationLayerSupport())
         {
             throw std::runtime_error("validation layers requested, but not available!");
         }

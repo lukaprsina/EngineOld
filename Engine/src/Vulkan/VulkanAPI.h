@@ -30,7 +30,7 @@ namespace eng
         template <typename S, typename A>
         bool IsSubset(S &subset, const uint32_t subsetCount, A &array, const uint32_t arrayCount);
 
-        std::vector<const char *> getRequiredExtensions(GLFW &glfw);
+        std::vector<const char *> GetInstanceExtensions(GLFW &glfw);
 
 #ifdef NDEBUG
         const bool enableValidationLayers = false;
@@ -38,8 +38,9 @@ namespace eng
         const bool enableValidationLayers = true;
 #endif
 
+        const std::vector<const char *> deviceExtensions;
         const std::vector<const char *> validationLayers;
-        bool checkValidationLayerSupport();
+        bool CheckValidationLayerSupport();
 
         // TODO: another class for loaded functions
         // TODO: & for all function calls
@@ -58,6 +59,7 @@ namespace eng
         DeviceIndices GPUProperties;
         void PickPhysicalDevice();
 
+        bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
         DeviceIndices GetQueueFamilies(VkPhysicalDevice device);
         uint32_t ScorePhysicalDevice(DeviceIndices &indices);
 

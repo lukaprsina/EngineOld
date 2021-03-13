@@ -24,7 +24,7 @@ namespace eng
 
         std::multimap<int, supportedIndices> scoredFamilies;
 
-        for (int i = 0; i < queueFamilyCount; i++)
+        for (uint32_t i = 0; i < queueFamilyCount; i++)
         {
             supportedIndices support;
             vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &support.presentFamily);

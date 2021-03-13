@@ -2,7 +2,7 @@
 
 namespace eng
 {
-    bool VulkanAPI::checkValidationLayerSupport()
+    bool VulkanAPI::CheckValidationLayerSupport()
     {
         uint32_t layerCount;
         std::vector<VkLayerProperties> availableLayers;

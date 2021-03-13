@@ -7,6 +7,7 @@
 #include <functional>
 #include <cmath>
 
+#include <optional>
 #include <csignal>
 #include <cstring>
 #include <string>
