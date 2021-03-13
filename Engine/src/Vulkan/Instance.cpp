@@ -6,6 +6,7 @@ namespace eng
     void VulkanAPI::CreateInstance(GLFW &glfw)
     {
         // TODO: get app version and name
+        PopulateDebugMessenger();
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 
@@ -30,6 +31,7 @@ namespace eng
             throw std::runtime_error("validation layers requested, but not available!");
         }
 
+        createInfo.pNext = &debugCreateInfo;
         if (enableValidationLayers)
         {
             createInfo.enabledLayerCount = validationLayers.size();

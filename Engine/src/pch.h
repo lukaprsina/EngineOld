@@ -5,12 +5,13 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+#include <cmath>
 
+#include <optional>
 #include <csignal>
+#include <cstring>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-
-#include <string.h>

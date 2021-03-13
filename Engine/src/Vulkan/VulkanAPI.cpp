@@ -10,6 +10,8 @@ namespace eng
     {
         CreateInstance(glfw);
         SetupDebugMessenger();
+        PickPhysicalDevice();
+        CreateLogicalDevice();
     }
 
     VulkanAPI::~VulkanAPI()

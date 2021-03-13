@@ -7,7 +7,10 @@ add_executable(Engine
     "src/Vulkan/Extensions.cpp"
     "src/Vulkan/ValidationLayers.cpp"
     "src/Vulkan/IsSubset.cpp"
-    "src/Vulkan/DebugCallback.cpp"
+    "src/Vulkan/DebugMessenger.cpp"
+    "src/Vulkan/PhysicalDevice.cpp"
+    "src/Vulkan/QueueFamilies.cpp"
+    "src/Vulkan/LogicalDevice.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/GLFWSetCallbacks.cpp"
