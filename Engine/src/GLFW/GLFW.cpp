@@ -9,9 +9,18 @@ namespace eng
         std::cout << "GLFW ERROR [" << error << "]: " << description << '\n';
     }
 
-    GLFW::GLFW(WindowSettings settings)
-        : m_WindowSettings(settings)
+    GLFW::GLFW()
     {
+    }
+
+    GLFW::~GLFW()
+    {
+    }
+
+    void GLFW::IInit(WindowSettings settings)
+    {
+        m_WindowSettings = settings;
+
         glfwInit();
 
         glfwSetErrorCallback(GLFWErrorCallback);
@@ -25,23 +34,23 @@ namespace eng
         SetCallbacks();
     }
 
-    GLFW::~GLFW()
+    void GLFW::IShutdown()
     {
         glfwDestroyWindow(m_Window);
         glfwTerminate();
     }
 
-    void GLFW::OnUpdate()
+    void GLFW::IOnUpdate()
     {
         glfwPollEvents();
     }
 
-    void GLFW::GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount)
+    void GLFW::IGetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount)
     {
         GLFWExtensions = glfwGetRequiredInstanceExtensions(&GLFWExtensionCount);
     }
 
-    void GLFW::CreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface)
+    void GLFW::ICreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface)
     {
         if (glfwCreateWindowSurface(instance, m_Window, nullptr, &surface) != VK_SUCCESS)
         {
@@ -49,7 +58,7 @@ namespace eng
         }
     }
 
-    void GLFW::GetFramebufferSize(int &width, int &height)
+    void GLFW::IGetFramebufferSize(int &width, int &height)
     {
         glfwGetFramebufferSize(m_Window, &width, &height);
     }

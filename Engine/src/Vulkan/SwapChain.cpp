@@ -3,11 +3,11 @@
 // TODO: add functionality
 namespace eng
 {
-    void VulkanAPI::CreateSwapChain(GLFW &glfw)
+    void VulkanAPI::CreateSwapChain()
     {
         VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(GPUProperties.formats);
         VkPresentModeKHR presentMode = ChooseSwapPresentMode(GPUProperties.presentModes);
-        VkExtent2D extent = ChooseSwapExtent(GPUProperties.capabilities, glfw);
+        VkExtent2D extent = ChooseSwapExtent(GPUProperties.capabilities);
 
         uint32_t imageCount = GPUProperties.capabilities.minImageCount + 1;
 
@@ -103,7 +103,7 @@ namespace eng
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    VkExtent2D VulkanAPI::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities, GLFW &glfw)
+    VkExtent2D VulkanAPI::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities)
     {
         if (capabilities.currentExtent.width != UINT32_MAX)
         {
@@ -112,7 +112,7 @@ namespace eng
         else
         {
             int width, height;
-            glfw.GetFramebufferSize(width, height);
+            GLFW::GetFramebufferSize(width, height);
 
             VkExtent2D actualExtent = {
                 static_cast<uint32_t>(width),

@@ -3,7 +3,7 @@
 
 namespace eng
 {
-    void VulkanAPI::CreateInstance(GLFW &glfw)
+    void VulkanAPI::CreateInstance()
     {
         // TODO: get app version and name
         PopulateDebugMessenger();
@@ -21,7 +21,7 @@ namespace eng
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        std::vector<const char *> requiredExtensions = GetInstanceExtensions(glfw);
+        std::vector<const char *> requiredExtensions = GetInstanceExtensions();
 
         createInfo.enabledExtensionCount = requiredExtensions.size();
         createInfo.ppEnabledExtensionNames = requiredExtensions.data();

@@ -2,12 +2,12 @@
 
 namespace eng
 {
-    std::vector<const char *> VulkanAPI::GetInstanceExtensions(GLFW &glfw)
+    std::vector<const char *> VulkanAPI::GetInstanceExtensions()
     {
         const char **glfwExtensions;
         uint32_t glfwExtensionsCount = 0;
 
-        glfw.GetRequiredInstanceExtensions(glfwExtensions, glfwExtensionsCount);
+        GLFW::GetRequiredInstanceExtensions(glfwExtensions, glfwExtensionsCount);
         std::vector<const char *> requiredExtensions(glfwExtensions, glfwExtensions + glfwExtensionsCount);
 
         if (enableValidationLayers)

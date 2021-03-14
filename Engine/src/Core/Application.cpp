@@ -7,13 +7,22 @@
 namespace eng
 {
     Application::Application()
-        : m_Running(true), m_GLFW({"Test", 800, 600}), m_VkAPI(m_GLFW)
+        : m_Running(true)
     {
-        m_GLFW.SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+        Log::Init();
+
+        WindowSettings settings;
+
+        GLFW::Init(settings);
+        GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+        VulkanAPI::Init();
     }
 
     Application::~Application()
     {
+        VulkanAPI::Shutdown();
+        GLFW::Shutdown();
     }
 
     void Application::OnEvent(Event &e)
@@ -26,7 +35,7 @@ namespace eng
     {
         while (m_Running)
         {
-            m_GLFW.OnUpdate();
+            GLFW::OnUpdate();
         }
     }
 

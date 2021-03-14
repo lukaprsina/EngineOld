@@ -1,5 +1,6 @@
 add_executable(Engine
     "src/Core/Application.cpp"
+    "src/Core/Log.cpp"
     
     "src/Vulkan/VulkanAPI.cpp"
     "src/Vulkan/Instance.cpp"
@@ -14,12 +15,13 @@ add_executable(Engine
     "src/Vulkan/SwapChain.cpp"
 
     "src/GLFW/GLFW.cpp"
-    "src/GLFW/GLFWSetCallbacks.cpp"
+    "src/GLFW/SetCallbacks.cpp"    
     )
 
 target_include_directories(Engine
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
     )
 
 target_precompile_headers(Engine
@@ -33,4 +35,5 @@ target_compile_options(Engine
 target_link_libraries(Engine
     PRIVATE glfw
     PRIVATE vulkan
+    PRIVATE spdlog::spdlog_header_only
     )

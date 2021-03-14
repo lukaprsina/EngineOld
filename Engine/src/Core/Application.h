@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Log.h"
 #include "GLFW/GLFW.h"
 #include "Vulkan/VulkanAPI.h"
 
@@ -19,7 +20,5 @@ namespace eng
 
     private:
         bool m_Running;
-        GLFW m_GLFW;
-        VulkanAPI m_VkAPI;
     };
 }

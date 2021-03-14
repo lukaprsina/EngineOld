@@ -2,6 +2,7 @@
 
 #include <vulkan/vulkan.h>
 #include "GLFW/GLFW.h"
+#include "Core/Log.h"
 
 namespace eng
 {
@@ -24,17 +25,32 @@ namespace eng
     class VulkanAPI
     {
     public:
-        VulkanAPI(GLFW &glfw);
+        VulkanAPI();
         ~VulkanAPI();
 
+        VulkanAPI(const VulkanAPI &) = delete;
+        VulkanAPI &operator=(VulkanAPI const &) = delete;
+
+        static VulkanAPI &Get()
+        {
+            static VulkanAPI instance;
+            return instance;
+        }
+
+        static void Init() { return Get().IInit(); }
+        static void Shutdown() { return Get().IShutdown(); }
+
     private:
+        void IInit();
+        void IShutdown();
+
         VkInstance instance;
-        void CreateInstance(GLFW &glfw);
+        void CreateInstance();
 
         template <typename S, typename A>
         bool IsSubset(S &subset, const uint32_t subsetCount, A &array, const uint32_t arrayCount);
 
-        std::vector<const char *> GetInstanceExtensions(GLFW &glfw);
+        std::vector<const char *> GetInstanceExtensions();
 
 #ifdef NDEBUG
         const bool enableValidationLayers = false;
@@ -58,7 +74,7 @@ namespace eng
         void SetupDebugMessenger();
 
         VkSurfaceKHR surface;
-        void CreateSurface(GLFW &glfw);
+        void CreateSurface();
 
         DeviceInfo GPUProperties;
         void PickPhysicalDevice();
@@ -76,10 +92,10 @@ namespace eng
         VkSwapchainKHR swapChain;
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
-        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities, GLFW &glfw);
+        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
         void QuerySwapChainSupport(DeviceInfo &indices);
-        void CreateSwapChain(GLFW &glfw);
+        void CreateSwapChain();
 
         void Cleanup();
     };
