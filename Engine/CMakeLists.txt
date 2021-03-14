@@ -29,12 +29,20 @@ target_precompile_headers(Engine
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h
 	)
     
-target_compile_options(Engine
-    PRIVATE -Wall -Wextra -pedantic #-Werror
+#target_compile_options(Engine
+    #PRIVATE -Wall -Wextra -pedantic #-Werror
+    #)
+
+target_include_directories(Engine
+    PRIVATE C:/VulkanSDK/1.2.170.0/Include)
+
+target_link_directories(Engine
+    PRIVATE C:/VulkanSDK/1.2.170.0/Bin
+    PRIVATE C:/VulkanSDK/1.2.170.0/Lib
     )
 
 target_link_libraries(Engine
     PRIVATE glfw
-    PRIVATE vulkan
+    PRIVATE vulkan-1
     PRIVATE spdlog::spdlog_header_only
     )
