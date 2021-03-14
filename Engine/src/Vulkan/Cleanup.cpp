@@ -4,6 +4,10 @@ namespace eng
 {
     void VulkanAPI::Cleanup()
     {
+        for (auto imageView : swapChainImageViews)
+        {
+            vkDestroyImageView(logicalDevice, imageView, nullptr);
+        }
         vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
         vkDestroyDevice(logicalDevice, nullptr);
         if (enableValidationLayers)

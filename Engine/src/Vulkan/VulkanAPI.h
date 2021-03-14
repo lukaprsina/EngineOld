@@ -94,8 +94,14 @@ namespace eng
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
+        VkFormat swapChainImageFormat;
+        VkExtent2D swapChainExtent;
+        std::vector<VkImage> swapChainImages;
         void QuerySwapChainSupport(DeviceInfo &indices);
         void CreateSwapChain();
+
+        std::vector<VkImageView> swapChainImageViews;
+        void CreateImageViews();
 
         void Cleanup();
     };

@@ -23,6 +23,7 @@ namespace eng
         PickPhysicalDevice();
         CreateLogicalDevice();
         CreateSwapChain();
+        CreateImageViews();
     }
 
     void VulkanAPI::IShutdown()
