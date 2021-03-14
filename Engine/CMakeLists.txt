@@ -11,6 +11,7 @@ add_executable(Engine
     "src/Vulkan/PhysicalDevice.cpp"
     "src/Vulkan/QueueFamilies.cpp"
     "src/Vulkan/LogicalDevice.cpp"
+    "src/Vulkan/SwapChain.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/GLFWSetCallbacks.cpp"

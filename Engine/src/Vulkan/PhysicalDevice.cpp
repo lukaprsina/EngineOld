@@ -18,11 +18,11 @@ namespace eng
         devices.resize(deviceCount);
         vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
-        std::multimap<int, DeviceIndices> candidates;
+        std::multimap<int, DeviceInfo> candidates;
 
         for (const auto &device : devices)
         {
-            DeviceIndices indices = GetQueueFamilies(device);
+            DeviceInfo indices = GetQueueFamilies(device);
             int score = ScorePhysicalDevice(indices);
 
             candidates.insert(std::make_pair(score, indices));
@@ -38,7 +38,7 @@ namespace eng
         }
     }
 
-    uint32_t VulkanAPI::ScorePhysicalDevice(DeviceIndices &indices)
+    uint32_t VulkanAPI::ScorePhysicalDevice(DeviceInfo &indices)
     {
         uint32_t score = 0;
         VkPhysicalDeviceProperties deviceProperties;

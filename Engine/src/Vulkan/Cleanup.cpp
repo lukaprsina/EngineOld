@@ -4,6 +4,7 @@ namespace eng
 {
     void VulkanAPI::Cleanup()
     {
+        vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
         vkDestroyDevice(logicalDevice, nullptr);
         if (enableValidationLayers)
         {

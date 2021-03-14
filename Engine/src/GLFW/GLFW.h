@@ -29,6 +29,8 @@ namespace eng
 
         void CreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface);
 
+        void GetFramebufferSize(int &width, int &height);
+
     private:
         GLFWwindow *m_Window;
         WindowSettings m_WindowSettings;

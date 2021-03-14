@@ -48,4 +48,9 @@ namespace eng
             throw std::runtime_error("failed to create window surface!");
         }
     }
+
+    void GLFW::GetFramebufferSize(int &width, int &height)
+    {
+        glfwGetFramebufferSize(m_Window, &width, &height);
+    }
 }

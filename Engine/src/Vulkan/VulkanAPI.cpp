@@ -13,6 +13,7 @@ namespace eng
         glfw.CreateWindowSurface(instance, surface);
         PickPhysicalDevice();
         CreateLogicalDevice();
+        CreateSwapChain(glfw);
     }
 
     VulkanAPI::~VulkanAPI()

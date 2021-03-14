@@ -2,9 +2,9 @@
 
 namespace eng
 {
-    DeviceIndices VulkanAPI::GetQueueFamilies(VkPhysicalDevice device)
+    DeviceInfo VulkanAPI::GetQueueFamilies(VkPhysicalDevice device)
     {
-        DeviceIndices indices;
+        DeviceInfo indices;
         uint32_t queueFamilyCount = 0;
 
         std::vector<VkQueueFamilyProperties> queueFamilies;
@@ -105,6 +105,8 @@ namespace eng
         {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
+
+        QuerySwapChainSupport(indices);
 
         return indices;
     }

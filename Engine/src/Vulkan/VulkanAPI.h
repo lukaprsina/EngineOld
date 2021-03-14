@@ -5,13 +5,17 @@
 
 namespace eng
 {
-    struct DeviceIndices
+    struct DeviceInfo
     {
         VkPhysicalDevice device;
         std::optional<uint32_t> graphicsFamily;
         std::optional<uint32_t> presentFamily;
 
-        bool isComplete()
+        VkSurfaceCapabilitiesKHR capabilities;
+        std::vector<VkSurfaceFormatKHR> formats;
+        std::vector<VkPresentModeKHR> presentModes;
+
+        bool isOK()
         {
             return graphicsFamily.has_value() && presentFamily.has_value();
         }
@@ -56,18 +60,26 @@ namespace eng
         VkSurfaceKHR surface;
         void CreateSurface(GLFW &glfw);
 
-        DeviceIndices GPUProperties;
+        DeviceInfo GPUProperties;
         void PickPhysicalDevice();
 
         bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
-        DeviceIndices GetQueueFamilies(VkPhysicalDevice device);
-        uint32_t ScorePhysicalDevice(DeviceIndices &indices);
+        DeviceInfo GetQueueFamilies(VkPhysicalDevice device);
+        uint32_t ScorePhysicalDevice(DeviceInfo &indices);
 
         VkDevice logicalDevice;
         VkQueue graphicsQueue;
         VkQueue presentQueue;
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
         void CreateLogicalDevice();
+
+        VkSwapchainKHR swapChain;
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
+        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
+        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities, GLFW &glfw);
+
+        void QuerySwapChainSupport(DeviceInfo &indices);
+        void CreateSwapChain(GLFW &glfw);
 
         void Cleanup();
     };
