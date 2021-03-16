@@ -8,7 +8,7 @@ namespace eng
         uint32_t deviceCount = 0;
         std::vector<VkPhysicalDevice> devices;
 
-        vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+        vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
 
         if (deviceCount == 0)
         {
@@ -16,7 +16,7 @@ namespace eng
         }
 
         devices.resize(deviceCount);
-        vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+        vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
 
         std::multimap<int, DeviceInfo> candidates;
 
@@ -28,9 +28,19 @@ namespace eng
             candidates.insert(std::make_pair(score, indices));
         }
 
-        if (candidates.rbegin()->first > 0)
+        if (m_Settings.GPU)
         {
-            GPUProperties = candidates.rbegin()->second;
+            for (auto &candidate : candidates)
+            {
+                if (candidate.second.device == m_Settings.GPU)
+                {
+                    m_GPUProperties = candidate.second;
+                }
+            }
+        }
+        else if (candidates.rbegin()->first > 0)
+        {
+            m_GPUProperties = candidates.rbegin()->second;
         }
         else
         {
@@ -38,7 +48,7 @@ namespace eng
         }
     }
 
-    uint32_t VulkanAPI::ScorePhysicalDevice(DeviceInfo &indices)
+    uint32_t VulkanAPI::ScorePhysicalDevice(const DeviceInfo &indices)
     {
         uint32_t score = 0;
         VkPhysicalDeviceProperties deviceProperties;

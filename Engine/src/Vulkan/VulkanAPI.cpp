@@ -7,7 +7,7 @@
 namespace eng
 {
     VulkanAPI::VulkanAPI()
-        : deviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), validationLayers({"VK_LAYER_KHRONOS_validation"})
+        : m_DeviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), m_ValidationLayers({"VK_LAYER_KHRONOS_validation"})
     {
     }
 
@@ -19,11 +19,12 @@ namespace eng
     {
         CreateInstance();
         SetupDebugMessenger();
-        GLFW::CreateWindowSurface(instance, surface);
+        GLFW::CreateWindowSurface(m_Instance, m_Surface);
         PickPhysicalDevice();
         CreateLogicalDevice();
         CreateSwapChain();
         CreateImageViews();
+        CreateGraphicsPipeline();
     }
 
     void VulkanAPI::IShutdown()

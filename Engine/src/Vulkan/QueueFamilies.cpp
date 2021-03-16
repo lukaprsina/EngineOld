@@ -2,7 +2,7 @@
 
 namespace eng
 {
-    DeviceInfo VulkanAPI::GetQueueFamilies(VkPhysicalDevice device)
+    DeviceInfo VulkanAPI::GetQueueFamilies(const VkPhysicalDevice &device)
     {
         DeviceInfo indices;
         uint32_t queueFamilyCount = 0;
@@ -27,7 +27,7 @@ namespace eng
         for (uint32_t i = 0; i < queueFamilyCount; i++)
         {
             supportedIndices support;
-            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &support.presentFamily);
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_Surface, &support.presentFamily);
 
             if (support.presentFamily)
                 score++;
@@ -49,15 +49,13 @@ namespace eng
             indices.graphicsFamily = scoredFamilies.rbegin()->second.i;
             indices.presentFamily = scoredFamilies.rbegin()->second.i;
 
-            float queuePriority = 1.0f;
-
             VkDeviceQueueCreateInfo queueCreateInfo{};
             queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
             queueCreateInfo.queueCount = 1;
-            queueCreateInfo.pQueuePriorities = &queuePriority;
+            queueCreateInfo.pQueuePriorities = &m_QueuePriority;
 
-            queueCreateInfos.emplace_back(queueCreateInfo);
+            m_QueueCreateInfos.emplace_back(queueCreateInfo);
         }
 
         else if (scoredFamilies.rbegin()->first == 1 && queueFamilyCount > 2)
@@ -83,22 +81,20 @@ namespace eng
                 throw std::runtime_error("failed to find a suitable GPU!");
             }
 
-            float queuePriority = 1.0f;
-
             VkDeviceQueueCreateInfo presentInfo{};
             presentInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             presentInfo.queueFamilyIndex = indices.presentFamily.value();
             presentInfo.queueCount = 1;
-            presentInfo.pQueuePriorities = &queuePriority;
+            presentInfo.pQueuePriorities = &m_QueuePriority;
 
             VkDeviceQueueCreateInfo graphicsInfo{};
             graphicsInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             graphicsInfo.queueFamilyIndex = indices.graphicsFamily.value();
             graphicsInfo.queueCount = 1;
-            graphicsInfo.pQueuePriorities = &queuePriority;
+            graphicsInfo.pQueuePriorities = &m_QueuePriority;
 
-            queueCreateInfos.emplace_back(presentInfo);
-            queueCreateInfos.emplace_back(graphicsInfo);
+            m_QueueCreateInfos.emplace_back(presentInfo);
+            m_QueueCreateInfos.emplace_back(graphicsInfo);
         }
 
         else

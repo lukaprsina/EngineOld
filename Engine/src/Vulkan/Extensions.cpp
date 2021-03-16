@@ -10,7 +10,7 @@ namespace eng
         GLFW::GetRequiredInstanceExtensions(glfwExtensions, glfwExtensionsCount);
         std::vector<const char *> requiredExtensions(glfwExtensions, glfwExtensions + glfwExtensionsCount);
 
-        if (enableValidationLayers)
+        if (m_EnableValidationLayers)
         {
             requiredExtensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
@@ -32,7 +32,7 @@ namespace eng
         return requiredExtensions;
     }
 
-    bool VulkanAPI::CheckDeviceExtensionSupport(VkPhysicalDevice device)
+    bool VulkanAPI::CheckDeviceExtensionSupport(const VkPhysicalDevice &device)
     {
         uint32_t extensionCount;
         std::vector<VkExtensionProperties> availableExtensions;
@@ -40,6 +40,6 @@ namespace eng
         availableExtensions.resize(extensionCount);
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
-        return IsSubset(deviceExtensions, deviceExtensions.size(), availableExtensions, availableExtensions.size());
+        return IsSubset(m_DeviceExtensions, m_DeviceExtensions.size(), availableExtensions, availableExtensions.size());
     }
 }

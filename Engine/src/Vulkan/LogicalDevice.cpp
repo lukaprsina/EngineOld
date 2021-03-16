@@ -10,30 +10,29 @@ namespace eng
         VkDeviceCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-        createInfo.queueCreateInfoCount = queueCreateInfos.size();
-        createInfo.pQueueCreateInfos = queueCreateInfos.data();
+        createInfo.queueCreateInfoCount = m_QueueCreateInfos.size();
+        createInfo.pQueueCreateInfos = m_QueueCreateInfos.data();
 
-        createInfo.queueCreateInfoCount = 1;
         createInfo.pEnabledFeatures = &deviceFeatures;
 
-        createInfo.enabledExtensionCount = deviceExtensions.size();
-        createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+        createInfo.enabledExtensionCount = m_DeviceExtensions.size();
+        createInfo.ppEnabledExtensionNames = m_DeviceExtensions.data();
 
-        if (enableValidationLayers)
+        if (m_EnableValidationLayers)
         {
-            createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-            createInfo.ppEnabledLayerNames = validationLayers.data();
+            createInfo.enabledLayerCount = static_cast<uint32_t>(m_ValidationLayers.size());
+            createInfo.ppEnabledLayerNames = m_ValidationLayers.data();
         }
         else
         {
             createInfo.enabledLayerCount = 0;
         }
 
-        if (vkCreateDevice(GPUProperties.device, &createInfo, nullptr, &logicalDevice) != VK_SUCCESS)
+        if (vkCreateDevice(m_GPUProperties.device, &createInfo, nullptr, &m_LogicalDevice) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create logical device!");
         }
 
-        vkGetDeviceQueue(logicalDevice, GPUProperties.graphicsFamily.value(), 0, &graphicsQueue);
+        vkGetDeviceQueue(m_LogicalDevice, m_GPUProperties.graphicsFamily.value(), 0, &m_GraphicsQueue);
     }
 }

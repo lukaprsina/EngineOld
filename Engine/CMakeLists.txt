@@ -14,10 +14,14 @@ add_executable(Engine
     "src/Vulkan/LogicalDevice.cpp"
     "src/Vulkan/SwapChain.cpp"
     "src/Vulkan/ImageViews.cpp"
+    "src/Vulkan/GraphicsPipeline.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    
     )
+
+set(gcc_like_compile "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
+set(msvc_compile "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
 target_include_directories(Engine
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -29,20 +33,31 @@ target_precompile_headers(Engine
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h
 	)
     
-#target_compile_options(Engine
-    #PRIVATE -Wall -Wextra -pedantic #-Werror
-    #)
+target_compile_options(Engine
+    PRIVATE "$<${gcc_like_compile}:$<BUILD_INTERFACE:-Wall;-Wextra;-pedantic>>"
+    PRIVATE "$<${msvc_compile}:$<BUILD_INTERFACE:-W3>>"
+    )
 
 target_include_directories(Engine
-    PRIVATE C:/VulkanSDK/1.2.170.0/Include)
+    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Include>"
+    )
 
 target_link_directories(Engine
-    PRIVATE C:/VulkanSDK/1.2.170.0/Bin
-    PRIVATE C:/VulkanSDK/1.2.170.0/Lib
+    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Bin>"
+    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Lib>"
     )
 
 target_link_libraries(Engine
     PRIVATE glfw
-    PRIVATE vulkan-1
     PRIVATE spdlog::spdlog_header_only
+    PRIVATE vulkan
     )
+
+file(GLOB SHADER_SRC
+    assets/shaders/*.spv
+)
+
+foreach(shaderpath ${SHADER_SRC})
+    get_filename_component(shader ${shaderpath} NAME)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/shaders/${shader} ${CMAKE_BINARY_DIR}/assets/shaders/${shader} COPYONLY)
+endforeach()

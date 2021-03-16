@@ -40,7 +40,7 @@ namespace eng
 
         static void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount) { return Get().IGetRequiredInstanceExtensions(GLFWExtensions, GLFWExtensionCount); }
 
-        static void CreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface) { return Get().ICreateWindowSurface(instance, surface); }
+        static void CreateWindowSurface(VkInstance &instance, VkSurfaceKHR &surface) { return Get().ICreateWindowSurface(instance, surface); }
 
         static void GetFramebufferSize(int &width, int &height) { return Get().IGetFramebufferSize(width, height); }
 
@@ -57,7 +57,7 @@ namespace eng
 
         void IGetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount);
 
-        void ICreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface);
+        void ICreateWindowSurface(VkInstance &instance, VkSurfaceKHR &surface);
 
         void IGetFramebufferSize(int &width, int &height);
 

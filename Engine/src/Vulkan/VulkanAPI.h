@@ -22,6 +22,19 @@ namespace eng
         }
     };
 
+    struct Settings
+    {
+        std::string Name = "Application";
+        uint32_t VersionMayor = 1;
+        uint32_t VersionMinor = 0;
+        uint32_t VersionPatch = 0;
+
+        uint32_t VulkanMessageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        uint32_t VulkanMessageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+        VkPhysicalDevice GPU = 0;
+    };
+
     class VulkanAPI
     {
     public:
@@ -44,64 +57,70 @@ namespace eng
         void IInit();
         void IShutdown();
 
-        VkInstance instance;
+        VkInstance m_Instance;
         void CreateInstance();
 
+        Settings m_Settings;
+
         template <typename S, typename A>
-        bool IsSubset(S &subset, const uint32_t subsetCount, A &array, const uint32_t arrayCount);
+        bool IsSubset(S &subset, const uint32_t &subsetCount, A &array, const uint32_t &arrayCount);
 
         std::vector<const char *> GetInstanceExtensions();
 
 #ifdef NDEBUG
-        const bool enableValidationLayers = false;
+        const bool m_EnableValidationLayers = false;
 #else
-        const bool enableValidationLayers = true;
+        const bool m_EnableValidationLayers = true;
 #endif
 
-        const std::vector<const char *> deviceExtensions;
-        const std::vector<const char *> validationLayers;
+        const std::vector<const char *> m_DeviceExtensions;
+        const std::vector<const char *> m_ValidationLayers;
         bool CheckValidationLayerSupport();
 
         // TODO: another class for loaded functions
         // TODO: & for all function calls
         // TODO: private members m_ convention
 
-        VkDebugUtilsMessengerEXT debugMessenger;
-        VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
+        VkDebugUtilsMessengerEXT m_DebugMessenger;
+        VkDebugUtilsMessengerCreateInfoEXT m_DebugCreateInfo;
         void PopulateDebugMessenger();
-        VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
-        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
+        VkResult CreateDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
+        void DestroyDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerEXT &debugMessenger, const VkAllocationCallbacks *pAllocator);
         void SetupDebugMessenger();
 
-        VkSurfaceKHR surface;
+        VkSurfaceKHR m_Surface;
         void CreateSurface();
 
-        DeviceInfo GPUProperties;
+        DeviceInfo m_GPUProperties;
         void PickPhysicalDevice();
 
-        bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
-        DeviceInfo GetQueueFamilies(VkPhysicalDevice device);
-        uint32_t ScorePhysicalDevice(DeviceInfo &indices);
+        const float m_QueuePriority = 1.0f;
+        bool CheckDeviceExtensionSupport(const VkPhysicalDevice &device);
+        DeviceInfo GetQueueFamilies(const VkPhysicalDevice &device);
+        uint32_t ScorePhysicalDevice(const DeviceInfo &indices);
 
-        VkDevice logicalDevice;
-        VkQueue graphicsQueue;
-        VkQueue presentQueue;
-        std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+        VkDevice m_LogicalDevice;
+        VkQueue m_GraphicsQueue;
+        VkQueue m_PresentQueue;
+        std::vector<VkDeviceQueueCreateInfo> m_QueueCreateInfos;
         void CreateLogicalDevice();
 
-        VkSwapchainKHR swapChain;
+        VkSwapchainKHR m_SwapChain;
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
-        VkFormat swapChainImageFormat;
-        VkExtent2D swapChainExtent;
-        std::vector<VkImage> swapChainImages;
+        VkFormat m_SwapChainImageFormat;
+        VkExtent2D m_SwapChainExtent;
+        std::vector<VkImage> m_SwapChainImages;
         void QuerySwapChainSupport(DeviceInfo &indices);
         void CreateSwapChain();
 
-        std::vector<VkImageView> swapChainImageViews;
+        std::vector<VkImageView> m_SwapChainImageViews;
         void CreateImageViews();
+
+        // TODO: use shaderc
+        void CreateGraphicsPipeline();
 
         void Cleanup();
     };

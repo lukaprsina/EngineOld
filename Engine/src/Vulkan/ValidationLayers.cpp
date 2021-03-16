@@ -10,7 +10,7 @@ namespace eng
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
         availableLayers.resize(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-        bool validationLayersSupported = IsSubset(validationLayers, validationLayers.size(), availableLayers, layerCount);
+        bool validationLayersSupported = IsSubset(m_ValidationLayers, m_ValidationLayers.size(), availableLayers, layerCount);
         return (validationLayersSupported);
     }
 }

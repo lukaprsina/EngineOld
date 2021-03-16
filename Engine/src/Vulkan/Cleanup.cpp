@@ -4,17 +4,17 @@ namespace eng
 {
     void VulkanAPI::Cleanup()
     {
-        for (auto imageView : swapChainImageViews)
+        for (auto imageView : m_SwapChainImageViews)
         {
-            vkDestroyImageView(logicalDevice, imageView, nullptr);
+            vkDestroyImageView(m_LogicalDevice, imageView, nullptr);
         }
-        vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
-        vkDestroyDevice(logicalDevice, nullptr);
-        if (enableValidationLayers)
+        vkDestroySwapchainKHR(m_LogicalDevice, m_SwapChain, nullptr);
+        vkDestroyDevice(m_LogicalDevice, nullptr);
+        if (m_EnableValidationLayers)
         {
-            DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+            DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
         }
-        vkDestroySurfaceKHR(instance, surface, nullptr);
-        vkDestroyInstance(instance, nullptr);
+        vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
+        vkDestroyInstance(m_Instance, nullptr);
     }
 }

@@ -50,9 +50,9 @@ namespace eng
         GLFWExtensions = glfwGetRequiredInstanceExtensions(&GLFWExtensionCount);
     }
 
-    void GLFW::ICreateWindowSurface(VkInstance instance, VkSurfaceKHR &surface)
+    void GLFW::ICreateWindowSurface(VkInstance &m_Instance, VkSurfaceKHR &surface)
     {
-        if (glfwCreateWindowSurface(instance, m_Window, nullptr, &surface) != VK_SUCCESS)
+        if (glfwCreateWindowSurface(m_Instance, m_Window, nullptr, &surface) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create window surface!");
         }
