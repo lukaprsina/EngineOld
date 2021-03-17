@@ -22,6 +22,7 @@ namespace eng
         GLFW::CreateWindowSurface(m_Instance, m_Surface);
         PickPhysicalDevice();
         CreateLogicalDevice();
+
         CreateSwapChain();
         CreateImageViews();
         CreateRenderPass();
@@ -29,6 +30,7 @@ namespace eng
         CreateFramebuffers();
         CreateCommandPool();
         CreateCommandBuffers();
+        CreateSemaphores();
     }
 
     void VulkanAPI::IOnUpdate()

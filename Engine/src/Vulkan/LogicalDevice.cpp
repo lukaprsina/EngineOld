@@ -34,5 +34,6 @@ namespace eng
         }
 
         vkGetDeviceQueue(m_LogicalDevice, m_GPUProperties.graphicsFamily.value(), 0, &m_GraphicsQueue);
+        vkGetDeviceQueue(m_LogicalDevice, m_GPUProperties.presentFamily.value(), 0, &m_PresentQueue);
     }
 }

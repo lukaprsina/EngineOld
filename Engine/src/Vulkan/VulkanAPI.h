@@ -141,6 +141,10 @@ namespace eng
         std::vector<VkCommandBuffer> m_CommandBuffers;
         void CreateCommandBuffers();
 
+        VkSemaphore m_ImageAvailableSemaphore;
+        VkSemaphore m_RenderFinishedSemaphore;
+        void CreateSemaphores();
+
         void DrawFrame();
 
         void Cleanup();

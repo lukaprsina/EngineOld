@@ -4,6 +4,9 @@ namespace eng
 {
     void VulkanAPI::Cleanup()
     {
+        vkDestroySemaphore(m_LogicalDevice, m_RenderFinishedSemaphore, nullptr);
+        vkDestroySemaphore(m_LogicalDevice, m_ImageAvailableSemaphore, nullptr);
+
         vkDestroyCommandPool(m_LogicalDevice, m_CommandPool, nullptr);
 
         for (auto framebuffer : m_SwapChainFramebuffers)
