@@ -3,6 +3,7 @@
 #include <vulkan/vulkan.h>
 #include "GLFW/GLFW.h"
 #include "Core/Log.h"
+#include <optional>
 
 namespace eng
 {
@@ -52,10 +53,12 @@ namespace eng
 
         static void Init() { return Get().IInit(); }
         static void Shutdown() { return Get().IShutdown(); }
+        static void OnUpdate() { return Get().IOnUpdate(); }
 
     private:
         void IInit();
         void IShutdown();
+        void IOnUpdate();
 
         VkInstance m_Instance;
         void CreateInstance();
@@ -119,8 +122,26 @@ namespace eng
         std::vector<VkImageView> m_SwapChainImageViews;
         void CreateImageViews();
 
+        VkRenderPass m_RenderPass;
+        VkPipelineLayout m_PipelineLayout;
+        VkPipeline m_GraphicsPipeline;
+        void CreateRenderPass();
+
         // TODO: use shaderc
+        std::vector<char> *ReadFile(const std::string &filename);
+        VkShaderModule CreateShaderModule(const std::vector<char> &code);
         void CreateGraphicsPipeline();
+
+        std::vector<VkFramebuffer> m_SwapChainFramebuffers;
+        void CreateFramebuffers();
+
+        VkCommandPool m_CommandPool;
+        void CreateCommandPool();
+
+        std::vector<VkCommandBuffer> m_CommandBuffers;
+        void CreateCommandBuffers();
+
+        void DrawFrame();
 
         void Cleanup();
     };

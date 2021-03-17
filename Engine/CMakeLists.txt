@@ -15,6 +15,10 @@ add_executable(Engine
     "src/Vulkan/SwapChain.cpp"
     "src/Vulkan/ImageViews.cpp"
     "src/Vulkan/GraphicsPipeline.cpp"
+    "src/Vulkan/RenderPass.cpp"
+    "src/Vulkan/Framebuffers.cpp"
+    "src/Vulkan/CommandPool.cpp"
+    "src/Vulkan/DrawFrame.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    

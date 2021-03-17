@@ -36,6 +36,7 @@ namespace eng
         while (m_Running)
         {
             GLFW::OnUpdate();
+            VulkanAPI::OnUpdate();
         }
     }
 

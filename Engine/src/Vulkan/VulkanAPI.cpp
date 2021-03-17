@@ -24,7 +24,16 @@ namespace eng
         CreateLogicalDevice();
         CreateSwapChain();
         CreateImageViews();
+        CreateRenderPass();
         CreateGraphicsPipeline();
+        CreateFramebuffers();
+        CreateCommandPool();
+        CreateCommandBuffers();
+    }
+
+    void VulkanAPI::IOnUpdate()
+    {
+        DrawFrame();
     }
 
     void VulkanAPI::IShutdown()
