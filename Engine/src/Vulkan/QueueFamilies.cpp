@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    DeviceInfo VulkanAPI::GetQueueFamilies(const VkPhysicalDevice &device)
+    DeviceInfo Vulkan::GetQueueFamilies(const VkPhysicalDevice &device)
     {
         DeviceInfo indices;
         uint32_t queueFamilyCount = 0;
@@ -101,8 +101,6 @@ namespace eng
         {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
-
-        QuerySwapChainSupport(indices);
 
         return indices;
     }

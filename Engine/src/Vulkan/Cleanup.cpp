@@ -1,28 +1,20 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    void VulkanAPI::Cleanup()
+    void Vulkan::Cleanup()
     {
-        vkDestroySemaphore(m_LogicalDevice, m_RenderFinishedSemaphore, nullptr);
-        vkDestroySemaphore(m_LogicalDevice, m_ImageAvailableSemaphore, nullptr);
+        for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+        {
+            vkDestroySemaphore(m_LogicalDevice, m_RenderFinishedSemaphores[i], nullptr);
+            vkDestroySemaphore(m_LogicalDevice, m_ImageAvailableSemaphores[i], nullptr);
+            vkDestroyFence(m_LogicalDevice, m_InFlightFences[i], nullptr);
+        }
 
         vkDestroyCommandPool(m_LogicalDevice, m_CommandPool, nullptr);
 
-        for (auto framebuffer : m_SwapChainFramebuffers)
-        {
-            vkDestroyFramebuffer(m_LogicalDevice, framebuffer, nullptr);
-        }
+        CleanupSwapChain();
 
-        vkDestroyPipelineLayout(m_LogicalDevice, m_PipelineLayout, nullptr);
-        vkDestroyRenderPass(m_LogicalDevice, m_RenderPass, nullptr);
-
-        for (auto imageView : m_SwapChainImageViews)
-        {
-            vkDestroyImageView(m_LogicalDevice, imageView, nullptr);
-        }
-
-        vkDestroySwapchainKHR(m_LogicalDevice, m_SwapChain, nullptr);
         vkDestroyDevice(m_LogicalDevice, nullptr);
 
         if (m_EnableValidationLayers)

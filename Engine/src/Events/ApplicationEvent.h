@@ -47,8 +47,8 @@ namespace eng
     class WindowFocusedEvent : public Event
     {
     public:
-        WindowFocusedEvent(int focused)
-            : m_Focused((bool)focused)
+        WindowFocusedEvent(int Focused)
+            : m_Focused((bool)Focused)
         {
         }
 

@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    bool VulkanAPI::CheckValidationLayerSupport()
+    bool Vulkan::CheckValidationLayerSupport()
     {
         uint32_t layerCount;
         std::vector<VkLayerProperties> availableLayers;

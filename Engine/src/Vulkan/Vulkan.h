@@ -1,9 +1,10 @@
 #pragma once
 
+#include "pch.h"
 #include <vulkan/vulkan.h>
 #include "GLFW/GLFW.h"
 #include "Core/Log.h"
-#include <optional>
+#include "Events/ApplicationEvent.h"
 
 namespace eng
 {
@@ -13,14 +14,17 @@ namespace eng
         std::optional<uint32_t> graphicsFamily;
         std::optional<uint32_t> presentFamily;
 
-        VkSurfaceCapabilitiesKHR capabilities;
-        std::vector<VkSurfaceFormatKHR> formats;
-        std::vector<VkPresentModeKHR> presentModes;
-
         bool isOK()
         {
             return graphicsFamily.has_value() && presentFamily.has_value();
         }
+    };
+
+    struct SwapChainSupportDetails
+    {
+        VkSurfaceCapabilitiesKHR capabilities;
+        std::vector<VkSurfaceFormatKHR> formats;
+        std::vector<VkPresentModeKHR> presentModes;
     };
 
     struct Settings
@@ -36,29 +40,31 @@ namespace eng
         VkPhysicalDevice GPU = 0;
     };
 
-    class VulkanAPI
+    class Vulkan
     {
     public:
-        VulkanAPI();
-        ~VulkanAPI();
+        Vulkan();
+        ~Vulkan();
 
-        VulkanAPI(const VulkanAPI &) = delete;
-        VulkanAPI &operator=(VulkanAPI const &) = delete;
+        Vulkan(const Vulkan &) = delete;
+        Vulkan &operator=(Vulkan const &) = delete;
 
-        static VulkanAPI &Get()
+        static Vulkan &Get()
         {
-            static VulkanAPI instance;
+            static Vulkan instance;
             return instance;
         }
 
         static void Init() { return Get().IInit(); }
         static void Shutdown() { return Get().IShutdown(); }
         static void OnUpdate() { return Get().IOnUpdate(); }
+        static void OnWindowResize(WindowResizeEvent &e) { return Get().IOnWindowResize(e); }
 
     private:
         void IInit();
         void IShutdown();
         void IOnUpdate();
+        void IOnWindowResize(WindowResizeEvent &e);
 
         VkInstance m_Instance;
         void CreateInstance();
@@ -109,6 +115,7 @@ namespace eng
         void CreateLogicalDevice();
 
         VkSwapchainKHR m_SwapChain;
+        SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice &device);
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
@@ -141,11 +148,18 @@ namespace eng
         std::vector<VkCommandBuffer> m_CommandBuffers;
         void CreateCommandBuffers();
 
-        VkSemaphore m_ImageAvailableSemaphore;
-        VkSemaphore m_RenderFinishedSemaphore;
-        void CreateSemaphores();
+        const size_t MAX_FRAMES_IN_FLIGHT = 2;
+        size_t CurrentFrame = 0;
+        bool m_FramebufferResized = false;
+        std::vector<VkSemaphore> m_ImageAvailableSemaphores;
+        std::vector<VkSemaphore> m_RenderFinishedSemaphores;
+        std::vector<VkFence> m_InFlightFences;
+        std::vector<VkFence> m_ImagesInFlight;
+        void CreateSyncObjects();
 
         void DrawFrame();
+        void RecreateSwapChain();
+        void CleanupSwapChain();
 
         void Cleanup();
     };

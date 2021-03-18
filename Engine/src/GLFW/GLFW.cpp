@@ -22,13 +22,10 @@ namespace eng
         m_WindowSettings = settings;
 
         glfwInit();
-
         glfwSetErrorCallback(GLFWErrorCallback);
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
         m_Window = glfwCreateWindow(m_WindowSettings.Width, m_WindowSettings.Height, m_WindowSettings.Title.c_str(), nullptr, nullptr);
-
         glfwSetWindowUserPointer(m_Window, &m_WindowSettings);
 
         SetCallbacks();

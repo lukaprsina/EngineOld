@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    void VulkanAPI::CreateLogicalDevice()
+    void Vulkan::CreateLogicalDevice()
     {
         // TODO: we already queried physicalDeviceFeatures in scoring
         VkPhysicalDeviceFeatures deviceFeatures{};

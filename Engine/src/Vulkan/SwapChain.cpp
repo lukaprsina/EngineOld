@@ -1,19 +1,20 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
-// TODO: add functionality
 namespace eng
 {
-    void VulkanAPI::CreateSwapChain()
+    void Vulkan::CreateSwapChain()
     {
-        VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(m_GPUProperties.formats);
-        VkPresentModeKHR presentMode = ChooseSwapPresentMode(m_GPUProperties.presentModes);
-        VkExtent2D extent = ChooseSwapExtent(m_GPUProperties.capabilities);
+        SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(m_GPUProperties.device);
 
-        uint32_t imageCount = m_GPUProperties.capabilities.minImageCount + 1;
+        VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
+        VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
+        VkExtent2D extent = ChooseSwapExtent(swapChainSupport.capabilities);
 
-        if (m_GPUProperties.capabilities.maxImageCount > 0 && imageCount > m_GPUProperties.capabilities.maxImageCount)
+        uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+
+        if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
         {
-            imageCount = m_GPUProperties.capabilities.maxImageCount;
+            imageCount = swapChainSupport.capabilities.maxImageCount;
         }
 
         VkSwapchainCreateInfoKHR createInfo{};
@@ -40,7 +41,7 @@ namespace eng
             createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
         }
 
-        createInfo.preTransform = m_GPUProperties.capabilities.currentTransform;
+        createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
         createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
         createInfo.presentMode = presentMode;
@@ -61,30 +62,65 @@ namespace eng
         m_SwapChainExtent = extent;
     }
 
-    void VulkanAPI::QuerySwapChainSupport(DeviceInfo &indices)
+    void Vulkan::RecreateSwapChain()
     {
-        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(indices.device, m_Surface, &indices.capabilities);
+        vkDeviceWaitIdle(m_LogicalDevice);
+        CleanupSwapChain();
+
+        CreateSwapChain();
+        CreateImageViews();
+        CreateRenderPass();
+        CreateGraphicsPipeline();
+        CreateFramebuffers();
+        CreateCommandBuffers();
+    }
+
+    void Vulkan::CleanupSwapChain()
+    {
+        for (auto framebuffer : m_SwapChainFramebuffers)
+        {
+            vkDestroyFramebuffer(m_LogicalDevice, framebuffer, nullptr);
+        }
+
+        vkDestroyPipeline(m_LogicalDevice, m_GraphicsPipeline, nullptr);
+        vkDestroyPipelineLayout(m_LogicalDevice, m_PipelineLayout, nullptr);
+        vkDestroyRenderPass(m_LogicalDevice, m_RenderPass, nullptr);
+
+        for (auto imageView : m_SwapChainImageViews)
+        {
+            vkDestroyImageView(m_LogicalDevice, imageView, nullptr);
+        }
+
+        vkDestroySwapchainKHR(m_LogicalDevice, m_SwapChain, nullptr);
+    }
+
+    SwapChainSupportDetails Vulkan::QuerySwapChainSupport(VkPhysicalDevice &device)
+    {
+        SwapChainSupportDetails swapChainSupport;
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, m_Surface, &swapChainSupport.capabilities);
 
         uint32_t formatCount;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(indices.device, m_Surface, &formatCount, nullptr);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_Surface, &formatCount, nullptr);
 
         if (formatCount != 0)
         {
-            indices.formats.resize(formatCount);
-            vkGetPhysicalDeviceSurfaceFormatsKHR(indices.device, m_Surface, &formatCount, indices.formats.data());
+            swapChainSupport.formats.resize(formatCount);
+            vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_Surface, &formatCount, swapChainSupport.formats.data());
         }
 
         uint32_t presentModeCount;
-        vkGetPhysicalDeviceSurfacePresentModesKHR(indices.device, m_Surface, &presentModeCount, nullptr);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_Surface, &presentModeCount, nullptr);
 
         if (presentModeCount != 0)
         {
-            indices.presentModes.resize(presentModeCount);
-            vkGetPhysicalDeviceSurfacePresentModesKHR(indices.device, m_Surface, &presentModeCount, indices.presentModes.data());
+            swapChainSupport.presentModes.resize(presentModeCount);
+            vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_Surface, &presentModeCount, swapChainSupport.presentModes.data());
         }
+
+        return swapChainSupport;
     }
 
-    VkSurfaceFormatKHR VulkanAPI::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats)
+    VkSurfaceFormatKHR Vulkan::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats)
     {
         for (const auto &availableFormat : availableFormats)
         {
@@ -97,7 +133,7 @@ namespace eng
         return availableFormats[0];
     }
 
-    VkPresentModeKHR VulkanAPI::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes)
+    VkPresentModeKHR Vulkan::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes)
     {
         for (const auto &availablePresentMode : availablePresentModes)
         {
@@ -110,7 +146,7 @@ namespace eng
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    VkExtent2D VulkanAPI::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities)
+    VkExtent2D Vulkan::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities)
     {
         if (capabilities.currentExtent.width != UINT32_MAX)
         {

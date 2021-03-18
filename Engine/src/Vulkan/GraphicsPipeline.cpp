@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    void VulkanAPI::CreateGraphicsPipeline()
+    void Vulkan::CreateGraphicsPipeline()
     {
         std::vector<char> *vertShaderCode = ReadFile("../assets/shaders/vert.spv");
         std::vector<char> *fragShaderCode = ReadFile("../assets/shaders/frag.spv");
@@ -81,14 +81,14 @@ namespace eng
         colorBlending.blendConstants[2] = 0.0f;
         colorBlending.blendConstants[3] = 0.0f;
 
-        VkDynamicState dynamicStates[] = {
+        /* VkDynamicState dynamicStates[] = {
             VK_DYNAMIC_STATE_VIEWPORT,
         };
 
         VkPipelineDynamicStateCreateInfo dynamicState{};
         dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
         dynamicState.dynamicStateCount = 1;
-        dynamicState.pDynamicStates = dynamicStates;
+        dynamicState.pDynamicStates = dynamicStates; */
 
         VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -110,6 +110,7 @@ namespace eng
         pipelineInfo.pRasterizationState = &rasterizer;
         pipelineInfo.pMultisampleState = &multisampling;
         pipelineInfo.pColorBlendState = &colorBlending;
+        // pipelineInfo.pDynamicState = &dynamicState;
 
         pipelineInfo.layout = m_PipelineLayout;
         pipelineInfo.renderPass = m_RenderPass;
@@ -127,7 +128,7 @@ namespace eng
         vkDestroyShaderModule(m_LogicalDevice, vertShaderModule, nullptr);
     }
 
-    VkShaderModule VulkanAPI::CreateShaderModule(const std::vector<char> &code)
+    VkShaderModule Vulkan::CreateShaderModule(const std::vector<char> &code)
     {
         VkShaderModuleCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -143,7 +144,7 @@ namespace eng
         return shaderModule;
     }
 
-    std::vector<char> *VulkanAPI::ReadFile(const std::string &filename)
+    std::vector<char> *Vulkan::ReadFile(const std::string &filename)
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 

@@ -1,9 +1,9 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 #include "version.h"
 
 namespace eng
 {
-    void VulkanAPI::CreateInstance()
+    void Vulkan::CreateInstance()
     {
         // TODO: get app version and name
         PopulateDebugMessenger();

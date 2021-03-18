@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    std::vector<const char *> VulkanAPI::GetInstanceExtensions()
+    std::vector<const char *> Vulkan::GetInstanceExtensions()
     {
         const char **glfwExtensions;
         uint32_t glfwExtensionsCount = 0;
@@ -32,7 +32,7 @@ namespace eng
         return requiredExtensions;
     }
 
-    bool VulkanAPI::CheckDeviceExtensionSupport(const VkPhysicalDevice &device)
+    bool Vulkan::CheckDeviceExtensionSupport(const VkPhysicalDevice &device)
     {
         uint32_t extensionCount;
         std::vector<VkExtensionProperties> availableExtensions;

@@ -1,4 +1,4 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -6,18 +6,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
     void *pUserData)
 {
-    struct Settings
-    {
-        std::string Name;
-        uint32_t VersionMayor;
-        uint32_t VersionMinor;
-        uint32_t VersionPatch;
-        uint32_t VulkanMessageSeverity;
-        uint32_t VulkanMessageType;
-        VkPhysicalDevice GPU;
-    };
-
-    Settings *settings = static_cast<Settings *>(pUserData);
+    eng::Settings *settings = reinterpret_cast<eng::Settings *>(pUserData);
 
     if ((messageSeverity >= settings->VulkanMessageSeverity) &&
         (messageType >= settings->VulkanMessageType))
@@ -29,7 +18,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 
 namespace eng
 {
-    void VulkanAPI::SetupDebugMessenger()
+    void Vulkan::SetupDebugMessenger()
     {
         if (!m_EnableValidationLayers)
             return;
@@ -40,7 +29,7 @@ namespace eng
         }
     }
 
-    void VulkanAPI::PopulateDebugMessenger()
+    void Vulkan::PopulateDebugMessenger()
     {
         m_DebugCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
         m_DebugCreateInfo.messageSeverity = m_Settings.VulkanMessageSeverity;
@@ -49,7 +38,7 @@ namespace eng
         m_DebugCreateInfo.pUserData = &m_Settings;
     }
 
-    VkResult VulkanAPI::CreateDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger)
+    VkResult Vulkan::CreateDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger)
     {
         auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
         if (func != nullptr)
@@ -62,7 +51,7 @@ namespace eng
         }
     }
 
-    void VulkanAPI::DestroyDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerEXT &debugMessenger, const VkAllocationCallbacks *pAllocator)
+    void Vulkan::DestroyDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerEXT &debugMessenger, const VkAllocationCallbacks *pAllocator)
     {
         auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
         if (func != nullptr)

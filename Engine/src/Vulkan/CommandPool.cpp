@@ -1,8 +1,8 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
-    void VulkanAPI::CreateCommandPool()
+    void Vulkan::CreateCommandPool()
     {
         VkCommandPoolCreateInfo poolInfo{};
         poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -14,7 +14,7 @@ namespace eng
         }
     }
 
-    void VulkanAPI::CreateCommandBuffers()
+    void Vulkan::CreateCommandBuffers()
     {
         m_CommandBuffers.resize(m_SwapChainFramebuffers.size());
 

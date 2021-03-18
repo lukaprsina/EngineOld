@@ -16,12 +16,12 @@ namespace eng
         GLFW::Init(settings);
         GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
-        VulkanAPI::Init();
+        Vulkan::Init();
     }
 
     Application::~Application()
     {
-        VulkanAPI::Shutdown();
+        Vulkan::Shutdown();
         GLFW::Shutdown();
     }
 
@@ -29,6 +29,7 @@ namespace eng
     {
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
     }
 
     void Application::Run()
@@ -36,13 +37,20 @@ namespace eng
         while (m_Running)
         {
             GLFW::OnUpdate();
-            VulkanAPI::OnUpdate();
+            Vulkan::OnUpdate();
         }
     }
 
     bool Application::OnWindowClose(WindowCloseEvent &e)
     {
+        e.Handled = true;
         m_Running = false;
+        return true;
+    }
+
+    bool Application::OnWindowResize(WindowResizeEvent &e)
+    {
+        Vulkan::OnWindowResize(e);
         return true;
     }
 }

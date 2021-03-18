@@ -11,7 +11,8 @@ namespace eng
         unsigned int Width = 1280;
         unsigned int Height = 920;
 
-        bool focused = true;
+        unsigned int Framerate = 0;
+        bool Focused = true;
 
         std::function<void(Event &)> EventCallback = nullptr;
     };

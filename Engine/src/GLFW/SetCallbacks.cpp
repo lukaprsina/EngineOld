@@ -23,9 +23,9 @@ namespace eng
             data.EventCallback(event);
         });
 
-        glfwSetWindowFocusCallback(m_Window, [](GLFWwindow *window, int focused) {
+        glfwSetWindowFocusCallback(m_Window, [](GLFWwindow *window, int Focused) {
             WindowSettings &data = *(WindowSettings *)glfwGetWindowUserPointer(window);
-            WindowFocusedEvent event(focused);
+            WindowFocusedEvent event(Focused);
             data.EventCallback(event);
         });
 

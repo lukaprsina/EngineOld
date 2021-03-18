@@ -1,4 +1,4 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 namespace eng
 {
@@ -7,7 +7,7 @@ namespace eng
     bool IsSubset(S &subset, const uint32_t &subsetCount, A &array, const uint32_t &arrayCount) { return false; }
 
     template <>
-    bool VulkanAPI::IsSubset<std::vector<const char *>, std::vector<VkExtensionProperties>>(std::vector<const char *> &glfwExtensions,
+    bool Vulkan::IsSubset<std::vector<const char *>, std::vector<VkExtensionProperties>>(std::vector<const char *> &glfwExtensions,
                                                                                             const uint32_t &glfwExtensionCount,
                                                                                             std::vector<VkExtensionProperties> &extensions,
                                                                                             const uint32_t &extensionCount)
@@ -33,7 +33,7 @@ namespace eng
     }
 
     template <>
-    bool VulkanAPI::IsSubset<std::vector<char const *> const, std::vector<VkLayerProperties>>(std::vector<char const *> const &validationLayers,
+    bool Vulkan::IsSubset<std::vector<char const *> const, std::vector<VkLayerProperties>>(std::vector<char const *> const &validationLayers,
                                                                                               const uint32_t &validationLayerCount,
                                                                                               std::vector<VkLayerProperties> &availableLayers,
                                                                                               const uint32_t &availableLayerCount)
@@ -60,7 +60,7 @@ namespace eng
     }
 
     template <>
-    bool VulkanAPI::IsSubset<const std::vector<const char *>, std::vector<VkExtensionProperties>>(const std::vector<const char *> &deviceExtensions,
+    bool Vulkan::IsSubset<const std::vector<const char *>, std::vector<VkExtensionProperties>>(const std::vector<const char *> &deviceExtensions,
                                                                                                   const uint32_t &deviceExtensionCount,
                                                                                                   std::vector<VkExtensionProperties> &availableExtensions,
                                                                                                   const uint32_t &availableExtensionCount)

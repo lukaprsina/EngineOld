@@ -2,7 +2,7 @@ add_executable(Engine
     "src/Core/Application.cpp"
     "src/Core/Log.cpp"
     
-    "src/Vulkan/VulkanAPI.cpp"
+    "src/Vulkan/Vulkan.cpp"
     "src/Vulkan/Instance.cpp"
     "src/Vulkan/Cleanup.cpp"
     "src/Vulkan/Extensions.cpp"
@@ -19,7 +19,7 @@ add_executable(Engine
     "src/Vulkan/Framebuffers.cpp"
     "src/Vulkan/CommandPool.cpp"
     "src/Vulkan/DrawFrame.cpp"
-    "src/Vulkan/Semaphores.cpp"
+    "src/Vulkan/SyncObjects.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    

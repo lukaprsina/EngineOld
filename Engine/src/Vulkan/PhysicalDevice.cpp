@@ -1,9 +1,9 @@
-#include "Vulkan/VulkanAPI.h"
+#include "Vulkan/Vulkan.h"
 
 // TODO: for loop &
 namespace eng
 {
-    void VulkanAPI::PickPhysicalDevice()
+    void Vulkan::PickPhysicalDevice()
     {
         uint32_t deviceCount = 0;
         std::vector<VkPhysicalDevice> devices;
@@ -48,7 +48,7 @@ namespace eng
         }
     }
 
-    uint32_t VulkanAPI::ScorePhysicalDevice(const DeviceInfo &indices)
+    uint32_t Vulkan::ScorePhysicalDevice(const DeviceInfo &indices)
     {
         uint32_t score = 0;
         VkPhysicalDeviceProperties deviceProperties;
