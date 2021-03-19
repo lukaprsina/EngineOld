@@ -4,6 +4,7 @@ namespace eng
 {
     void Vulkan::DrawFrame()
     {
+
         vkWaitForFences(m_LogicalDevice, 1, &m_InFlightFences[CurrentFrame], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;

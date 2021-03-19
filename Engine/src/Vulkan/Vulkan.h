@@ -5,6 +5,7 @@
 #include "GLFW/GLFW.h"
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
+#include <optional>
 
 namespace eng
 {

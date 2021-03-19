@@ -54,6 +54,20 @@ namespace eng
 
             vkCmdBindPipeline(m_CommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicsPipeline);
 
+            VkViewport viewport{};
+            viewport.x = 0.0f;
+            viewport.y = 0.0f;
+            viewport.width = static_cast<float>(m_SwapChainExtent.width);
+            viewport.height = static_cast<float>(m_SwapChainExtent.height);
+            viewport.minDepth = 0.0f;
+            viewport.maxDepth = 1.0f;
+            vkCmdSetViewport(m_CommandBuffers[i], 0, 1, &viewport);
+
+            VkRect2D scissor{};
+            scissor.offset = {0, 0};
+            scissor.extent = m_SwapChainExtent;
+            vkCmdSetScissor(m_CommandBuffers[i], 0, 1, &scissor);
+
             vkCmdDraw(m_CommandBuffers[i], 3, 1, 0, 0);
 
             vkCmdEndRenderPass(m_CommandBuffers[i]);

@@ -11,6 +11,6 @@ namespace eng
         availableLayers.resize(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
         bool validationLayersSupported = IsSubset(m_ValidationLayers, m_ValidationLayers.size(), availableLayers, layerCount);
-        return (validationLayersSupported);
+        return validationLayersSupported;
     }
 }
