@@ -3,23 +3,20 @@ add_executable(Engine
     "src/Core/Log.cpp"
     
     "src/Vulkan/Vulkan.cpp"
-    "src/Vulkan/Instance.cpp"
-    "src/Vulkan/Cleanup.cpp"
-    "src/Vulkan/Extensions.cpp"
-    "src/Vulkan/ValidationLayers.cpp"
     "src/Vulkan/IsSubset.cpp"
+
+    "src/Vulkan/Instance.cpp"
     "src/Vulkan/DebugMessenger.cpp"
     "src/Vulkan/PhysicalDevice.cpp"
-    "src/Vulkan/QueueFamilies.cpp"
-    "src/Vulkan/LogicalDevice.cpp"
-    "src/Vulkan/SwapChain.cpp"
-    "src/Vulkan/ImageViews.cpp"
-    "src/Vulkan/GraphicsPipeline.cpp"
-    "src/Vulkan/RenderPass.cpp"
-    "src/Vulkan/Framebuffers.cpp"
-    "src/Vulkan/CommandPool.cpp"
-    "src/Vulkan/DrawFrame.cpp"
-    "src/Vulkan/SyncObjects.cpp"
+    #"src/Vulkan/LogicalDevice.cpp"
+    #"src/Vulkan/SwapChain.cpp"
+    #"src/Vulkan/ImageViews.cpp"
+    #"src/Vulkan/RenderPass.cpp"
+    #"src/Vulkan/GraphicsPipeline.cpp"
+    #"src/Vulkan/Framebuffers.cpp"
+    #"src/Vulkan/CommandPool.cpp"
+    #"src/Vulkan/CommandBuffers.cpp"
+    #"src/Vulkan/SyncObjects.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    
@@ -31,6 +28,8 @@ set(msvc_compile "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 target_include_directories(Engine
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/VMA/src
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
     )
 

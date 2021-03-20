@@ -1,32 +1,29 @@
 #pragma once
 
 #include "pch.h"
+
 #include <vulkan/vulkan.h>
 #include "GLFW/GLFW.h"
+#include "glm/glm.hpp"
+#include "vk_mem_alloc.h"
+
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
-#include <optional>
 
 namespace eng
 {
-    struct DeviceInfo
-    {
-        VkPhysicalDevice device;
-        std::optional<uint32_t> graphicsFamily;
-        std::optional<uint32_t> presentFamily;
-
-        bool isOK()
-        {
-            return graphicsFamily.has_value() && presentFamily.has_value();
-        }
-    };
-
-    struct SwapChainSupportDetails
-    {
-        VkSurfaceCapabilitiesKHR capabilities;
-        std::vector<VkSurfaceFormatKHR> formats;
-        std::vector<VkPresentModeKHR> presentModes;
-    };
+    class Instance;
+    class DebugMessenger;
+    class PhysicalDevice;
+    class LogicalDevice;
+    class SwapChain;
+    class ImageViews;
+    class RenderPass;
+    class GraphicsPipeline;
+    class Framebuffers;
+    class CommandPool;
+    class CommandBuffers;
+    class SyncObjects;
 
     struct Settings
     {
@@ -39,6 +36,18 @@ namespace eng
         uint32_t VulkanMessageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 
         VkPhysicalDevice GPU = 0;
+    };
+
+    struct DeviceInfo
+    {
+        VkPhysicalDevice device;
+        std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
+
+        bool isOK()
+        {
+            return graphicsFamily.has_value() && presentFamily.has_value();
+        }
     };
 
     class Vulkan
@@ -61,107 +70,50 @@ namespace eng
         static void OnUpdate() { return Get().IOnUpdate(); }
         static void OnWindowResize(WindowResizeEvent &e) { return Get().IOnWindowResize(e); }
 
+        static bool AreValidationLayersEnabled();
+        static bool CheckValidationLayerSupport(const std::vector<const char *> &validationLayers);
+
+        template <typename S, typename A>
+        static bool IsSubset(S &subset, const uint32_t &subsetCount, A &array, const uint32_t &arrayCount);
+
+        const std::vector<const char *> DeviceExtensions{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+        const std::vector<const char *> ValidationLayers{"VK_LAYER_KHRONOS_validation"};
+
+        VkSurfaceKHR surface;
+
+        Settings settings;
+        // const std::vector<Vertex> m_Vertices;
+
+        std::unique_ptr<Instance> instance;
+        std::unique_ptr<DebugMessenger> debugMessenger;
+        std::unique_ptr<PhysicalDevice> physicalDevice;
+        /* std::unique_ptr<LogicalDevice> m_LogicalDevice;
+        std::unique_ptr<SwapChain> m_SwapChain;
+        std::unique_ptr<ImageViews> m_ImageViews;
+        std::unique_ptr<RenderPass> m_RenderPass;
+        std::unique_ptr<GraphicsPipeline> m_GraphicsPipeline;
+        std::unique_ptr<Framebuffers> m_Framebuffers;
+        std::unique_ptr<CommandPool> m_CommandPool;
+        std::unique_ptr<CommandBuffers> m_CommandBuffers;
+        std::unique_ptr<SyncObjects> m_SyncObjects; */
+
+        /* Instance *Instance;
+        DebugMessenger *DebugMessenger;
+        PhysicalDevice *m_PhysicalDevice;
+        LogicalDevice *m_LogicalDevice;
+        SwapChain *m_SwapChain;
+        ImageViews *m_ImageViews;
+        RenderPass *m_RenderPass;
+        GraphicsPipeline *m_GraphicsPipeline;
+        Framebuffers *m_Framebuffers;
+        CommandPool *m_CommandPool;
+        CommandBuffers *m_CommandBuffers;
+        SyncObjects *m_SyncObjects; */
+
     private:
         void IInit();
         void IShutdown();
         void IOnUpdate();
         void IOnWindowResize(WindowResizeEvent &e);
-
-        VkInstance m_Instance;
-        void CreateInstance();
-
-        Settings m_Settings;
-
-        template <typename S, typename A>
-        bool IsSubset(S &subset, const uint32_t &subsetCount, A &array, const uint32_t &arrayCount);
-
-        std::vector<const char *> GetInstanceExtensions();
-
-#ifdef NDEBUG
-        const bool m_EnableValidationLayers = false;
-#else
-        const bool m_EnableValidationLayers = true;
-#endif
-
-        const std::vector<const char *> m_DeviceExtensions;
-        const std::vector<const char *> m_ValidationLayers;
-        bool CheckValidationLayerSupport();
-
-        // TODO: another class for loaded functions
-        // TODO: & for all function calls
-        // TODO: private members m_ convention
-
-        VkDebugUtilsMessengerEXT m_DebugMessenger;
-        VkDebugUtilsMessengerCreateInfoEXT m_DebugCreateInfo;
-        void PopulateDebugMessenger();
-        VkResult CreateDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
-        void DestroyDebugUtilsMessengerEXT(const VkInstance &instance, const VkDebugUtilsMessengerEXT &debugMessenger, const VkAllocationCallbacks *pAllocator);
-        void SetupDebugMessenger();
-
-        VkSurfaceKHR m_Surface;
-        void CreateSurface();
-
-        DeviceInfo m_GPUProperties;
-        void PickPhysicalDevice();
-
-        const float m_QueuePriority = 1.0f;
-        bool CheckDeviceExtensionSupport(const VkPhysicalDevice &device);
-        DeviceInfo GetQueueFamilies(const VkPhysicalDevice &device);
-        uint32_t ScorePhysicalDevice(const DeviceInfo &indices);
-
-        VkDevice m_LogicalDevice;
-        VkQueue m_GraphicsQueue;
-        VkQueue m_PresentQueue;
-        std::vector<VkDeviceQueueCreateInfo> m_QueueCreateInfos;
-        void CreateLogicalDevice();
-
-        VkSwapchainKHR m_SwapChain;
-        SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice &device);
-        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
-        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
-        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
-
-        VkFormat m_SwapChainImageFormat;
-        VkExtent2D m_SwapChainExtent;
-        std::vector<VkImage> m_SwapChainImages;
-        void QuerySwapChainSupport(DeviceInfo &indices);
-        void CreateSwapChain();
-
-        std::vector<VkImageView> m_SwapChainImageViews;
-        void CreateImageViews();
-
-        VkRenderPass m_RenderPass;
-        VkPipelineLayout m_PipelineLayout;
-        VkPipeline m_GraphicsPipeline;
-        void CreateRenderPass();
-
-        // TODO: use shaderc
-        std::vector<char> *ReadFile(const std::string &filename);
-        VkShaderModule CreateShaderModule(const std::vector<char> &code);
-        void CreateGraphicsPipeline();
-
-        std::vector<VkFramebuffer> m_SwapChainFramebuffers;
-        void CreateFramebuffers();
-
-        VkCommandPool m_CommandPool;
-        void CreateCommandPool();
-
-        std::vector<VkCommandBuffer> m_CommandBuffers;
-        void CreateCommandBuffers();
-
-        const size_t MAX_FRAMES_IN_FLIGHT = 2;
-        size_t CurrentFrame = 0;
-        bool m_FramebufferResized = false;
-        std::vector<VkSemaphore> m_ImageAvailableSemaphores;
-        std::vector<VkSemaphore> m_RenderFinishedSemaphores;
-        std::vector<VkFence> m_InFlightFences;
-        std::vector<VkFence> m_ImagesInFlight;
-        void CreateSyncObjects();
-
-        void DrawFrame();
-        void RecreateSwapChain();
-        void CleanupSwapChain();
-
-        void Cleanup();
     };
 }

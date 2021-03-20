@@ -17,4 +17,5 @@ endif (UNIX)
 
 add_subdirectory("Engine/vendor/GLFW")
 add_subdirectory("Engine/vendor/spdlog")
+add_subdirectory("Engine/vendor/glm")
 add_subdirectory("Engine")
