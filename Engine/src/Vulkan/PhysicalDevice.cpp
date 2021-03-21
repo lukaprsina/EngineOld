@@ -77,7 +77,7 @@ namespace eng
         for (uint32_t i = 0; i < queueFamilyCount; i++)
         {
             supportedIndices support;
-            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get().surface, &support.presentFamily);
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get().m_VkSurface, &support.presentFamily);
 
             if (support.presentFamily)
                 score++;
@@ -105,7 +105,7 @@ namespace eng
             queueCreateInfo.queueCount = 1;
             queueCreateInfo.pQueuePriorities = &QueuePriority;
 
-            QueueCreateInfos.emplace_back(queueCreateInfo);
+            m_VkQueueCreateInfos.emplace_back(queueCreateInfo);
         }
 
         else if (scoredFamilies.rbegin()->first == 1 && queueFamilyCount > 2)
@@ -143,8 +143,8 @@ namespace eng
             graphicsInfo.queueCount = 1;
             graphicsInfo.pQueuePriorities = &QueuePriority;
 
-            QueueCreateInfos.emplace_back(presentInfo);
-            QueueCreateInfos.emplace_back(graphicsInfo);
+            m_VkQueueCreateInfos.emplace_back(presentInfo);
+            m_VkQueueCreateInfos.emplace_back(graphicsInfo);
         }
 
         else

@@ -28,18 +28,20 @@ namespace eng
         instance = std::make_unique<Instance>();
         debugMessenger = std::make_unique<DebugMessenger>();
 
-        GLFW::CreateWindowSurface(instance->m_VkInstance, surface);
+        GLFW::CreateWindowSurface(instance->m_VkInstance, m_VkSurface);
 
         physicalDevice = std::make_unique<PhysicalDevice>();
-        /*m_LogicalDevice = std::make_unique<LogicalDevice>();
-        m_SwapChain = std::make_unique<SwapChain>();
-        m_ImageViews = std::make_unique<ImageViews>();
-        m_RenderPass = std::make_unique<RenderPass>();
-        m_GraphicsPipeline = std::make_unique<GraphicsPipeline>();
-        m_Framebuffers = std::make_unique<Framebuffers>();
-        m_CommandPool = std::make_unique<CommandPool>();
-        m_CommandBuffers = std::make_unique<CommandBuffers>();
-        m_SyncObjects = std::make_unique<SyncObjects>(); */
+        logicalDevice = std::make_unique<LogicalDevice>();
+
+        swapChain = std::make_unique<SwapChain>();
+        imageViews = std::make_unique<ImageViews>();
+        renderPass = std::make_unique<RenderPass>();
+        graphicsPipeline = std::make_unique<GraphicsPipeline>();
+        framebuffers = std::make_unique<Framebuffers>();
+
+        commandPool = std::make_unique<CommandPool>();
+        commandBuffers = std::make_unique<CommandBuffers>();
+        syncObjects = std::make_unique<SyncObjects>();
     }
 
     void Vulkan::IOnUpdate()
@@ -52,6 +54,7 @@ namespace eng
 
     void Vulkan::IShutdown()
     {
+        Vulkan::Get().~Vulkan();
     }
 
     bool Vulkan::AreValidationLayersEnabled()

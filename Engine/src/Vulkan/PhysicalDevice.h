@@ -4,6 +4,18 @@
 
 namespace eng
 {
+    struct DeviceInfo
+    {
+        VkPhysicalDevice device;
+        std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
+
+        bool isOK()
+        {
+            return graphicsFamily.has_value() && presentFamily.has_value();
+        }
+    };
+
     class PhysicalDevice
     {
     public:
@@ -12,7 +24,7 @@ namespace eng
 
         float QueuePriority = 1.0f;
         DeviceInfo GPUProperties;
-        std::vector<VkDeviceQueueCreateInfo> QueueCreateInfos;
+        std::vector<VkDeviceQueueCreateInfo> m_VkQueueCreateInfos;
 
         DeviceInfo GetQueueFamilies(const VkPhysicalDevice &device);
         bool CheckDeviceExtensionSupport(const VkPhysicalDevice &device);

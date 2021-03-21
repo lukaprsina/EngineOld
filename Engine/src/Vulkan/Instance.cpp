@@ -57,6 +57,7 @@ namespace eng
 
     Instance::~Instance()
     {
+        vkDestroySurfaceKHR(m_VkInstance, Vulkan::Get().m_VkSurface, nullptr);
         vkDestroyInstance(m_VkInstance, nullptr);
     }
 
