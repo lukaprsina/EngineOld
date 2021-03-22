@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vulkan/Vulkan.h"
+
 namespace eng
 {
     class CommandBuffers
@@ -7,5 +9,7 @@ namespace eng
     public:
         CommandBuffers();
         ~CommandBuffers();
+
+        std::vector<VkCommandBuffer> m_VkCommandBuffers;
     };
 }

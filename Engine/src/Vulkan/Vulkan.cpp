@@ -28,7 +28,7 @@ namespace eng
         instance = std::make_unique<Instance>();
         debugMessenger = std::make_unique<DebugMessenger>();
 
-        GLFW::CreateWindowSurface(instance->m_VkInstance, m_VkSurface);
+        GLFW::CreateWindowSurface(instance->m_VkInstance, Vulkan::Get().instance->m_VkSurface);
 
         physicalDevice = std::make_unique<PhysicalDevice>();
         logicalDevice = std::make_unique<LogicalDevice>();
@@ -42,6 +42,12 @@ namespace eng
         commandPool = std::make_unique<CommandPool>();
         commandBuffers = std::make_unique<CommandBuffers>();
         syncObjects = std::make_unique<SyncObjects>();
+    }
+
+    void Vulkan::IInit(VulkanSettings &s)
+    {
+        Vulkan::Get().settings = s;
+        Vulkan::Init();
     }
 
     void Vulkan::IOnUpdate()
@@ -76,5 +82,10 @@ namespace eng
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
         bool validationLayersSupported = IsSubset(validationLayers, validationLayers.size(), availableLayers, layerCount);
         return validationLayersSupported;
+    }
+
+    void Vulkan::IChangeSettings(VulkanSettings &s)
+    {
+        Vulkan::Get().settings = s;
     }
 }

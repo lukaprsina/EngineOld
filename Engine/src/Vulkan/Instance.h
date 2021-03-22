@@ -11,6 +11,7 @@ namespace eng
         ~Instance();
 
         VkInstance m_VkInstance;
+        VkSurfaceKHR m_VkSurface;
 
     private:
         std::vector<const char *> GetInstanceExtensions();

@@ -28,13 +28,16 @@ namespace eng
             candidates.insert(std::make_pair(score, indices));
         }
 
-        if (Vulkan::Get().settings.GPU)
+        if (Vulkan::Get().settings.GPU.has_value())
         {
             for (auto &candidate : candidates)
             {
-                if (candidate.second.device == Vulkan::Get().settings.GPU)
+                if (candidate.second.device == Vulkan::Get().settings.GPU.value())
                 {
-                    GPUProperties = candidate.second;
+                    if (candidate.first != 0)
+                        GPUProperties = candidate.second;
+                    else
+                        throw std::runtime_error("the selected GPU isn't suitable!");
                 }
             }
         }
@@ -77,7 +80,7 @@ namespace eng
         for (uint32_t i = 0; i < queueFamilyCount; i++)
         {
             supportedIndices support;
-            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get().m_VkSurface, &support.presentFamily);
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get().instance->m_VkSurface, &support.presentFamily);
 
             if (support.presentFamily)
                 score++;

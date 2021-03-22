@@ -1,4 +1,5 @@
 #include "Vulkan/SwapChain.h"
+#include "Vulkan/Instance.h"
 #include "Vulkan/LogicalDevice.h"
 #include "Vulkan/PhysicalDevice.h"
 
@@ -24,7 +25,7 @@ namespace eng
 
         VkSwapchainCreateInfoKHR createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        createInfo.surface = Vulkan::Get().m_VkSurface;
+        createInfo.surface = Vulkan::Get().instance->m_VkSurface;
 
         createInfo.minImageCount = imageCount;
         createInfo.imageFormat = surfaceFormat.format;
@@ -74,7 +75,7 @@ namespace eng
 
     SwapChainSupportDetails SwapChain::QuerySwapChainSupport(VkPhysicalDevice &device)
     {
-        auto surface = Vulkan::Get().m_VkSurface;
+        auto surface = Vulkan::Get().instance->m_VkSurface;
         SwapChainSupportDetails swapChainSupport;
 
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &swapChainSupport.capabilities);
@@ -102,9 +103,24 @@ namespace eng
 
     VkSurfaceFormatKHR SwapChain::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats)
     {
+        auto settings = Vulkan::Get().settings;
+
+        if (settings.SwapSurfaceFormat.has_value())
+        {
+            for (const auto &availableFormat : availableFormats)
+            {
+                if (availableFormat.format == settings.SwapSurfaceFormat.value().format &&
+                    availableFormat.colorSpace == settings.SwapSurfaceFormat.value().colorSpace)
+                {
+                    return availableFormat;
+                }
+            }
+        }
+
         for (const auto &availableFormat : availableFormats)
         {
-            if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+            if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
+                availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
                 return availableFormat;
             }
@@ -115,9 +131,30 @@ namespace eng
 
     VkPresentModeKHR SwapChain::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes)
     {
+        auto settings = Vulkan::Get().settings;
+
+        if (settings.SwapSurfacePresentMode.has_value())
+        {
+            for (const auto &availablePresentMode : availablePresentModes)
+            {
+                if (availablePresentMode == settings.SwapSurfacePresentMode.value())
+                {
+                    return availablePresentMode;
+                }
+            }
+        }
+
         for (const auto &availablePresentMode : availablePresentModes)
         {
             if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+            {
+                return availablePresentMode;
+            }
+        }
+
+        for (const auto &availablePresentMode : availablePresentModes)
+        {
+            if (availablePresentMode == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
             {
                 return availablePresentMode;
             }

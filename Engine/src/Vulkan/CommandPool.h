@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vulkan/Vulkan.h"
+
 namespace eng
 {
     class CommandPool
@@ -7,5 +9,7 @@ namespace eng
     public:
         CommandPool();
         ~CommandPool();
+
+        VkCommandPool m_VkCommandPool;
     };
 }

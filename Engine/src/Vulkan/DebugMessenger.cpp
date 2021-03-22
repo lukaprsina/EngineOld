@@ -8,7 +8,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
     void *pUserData)
 {
-    eng::Settings *settings = reinterpret_cast<eng::Settings *>(pUserData);
+    eng::VulkanSettings *settings = reinterpret_cast<eng::VulkanSettings *>(pUserData);
 
     if ((messageSeverity >= settings->VulkanMessageSeverity) &&
         (messageType >= settings->VulkanMessageType))

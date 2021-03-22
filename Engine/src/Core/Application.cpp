@@ -11,12 +11,14 @@ namespace eng
     {
         Log::Init();
 
-        WindowSettings settings;
+        WindowSettings windowSettings;
 
-        GLFW::Init(settings);
+        GLFW::Init(windowSettings);
         GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
-        Vulkan::Init();
+        VulkanSettings vulkanSettings;
+
+        Vulkan::Init(vulkanSettings);
     }
 
     Application::~Application()

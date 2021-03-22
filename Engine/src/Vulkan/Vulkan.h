@@ -25,7 +25,7 @@ namespace eng
     class CommandBuffers;
     class SyncObjects;
 
-    struct Settings
+    struct VulkanSettings
     {
         std::string Name = "Application";
         uint32_t VersionMayor = 1;
@@ -35,7 +35,10 @@ namespace eng
         uint32_t VulkanMessageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
         uint32_t VulkanMessageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 
-        VkPhysicalDevice GPU = 0;
+        std::optional<VkPhysicalDevice> GPU;
+
+        std::optional<VkSurfaceFormatKHR> SwapSurfaceFormat;
+        std::optional<VkPresentModeKHR> SwapSurfacePresentMode;
     };
 
     class Vulkan
@@ -54,9 +57,11 @@ namespace eng
         }
 
         static void Init() { return Get().IInit(); }
+        static void Init(VulkanSettings &s) { return Get().IInit(s); }
         static void Shutdown() { return Get().IShutdown(); }
         static void OnUpdate() { return Get().IOnUpdate(); }
         static void OnWindowResize(WindowResizeEvent &e) { return Get().IOnWindowResize(e); }
+        static void ChangeSettings(VulkanSettings &s) { return Get().IChangeSettings(s); }
 
         static bool AreValidationLayersEnabled();
         static bool CheckValidationLayerSupport(const std::vector<const char *> &validationLayers);
@@ -67,9 +72,7 @@ namespace eng
         const std::vector<const char *> DeviceExtensions{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
         const std::vector<const char *> ValidationLayers{"VK_LAYER_KHRONOS_validation"};
 
-        VkSurfaceKHR m_VkSurface;
-
-        Settings settings;
+        VulkanSettings settings;
         // const std::vector<Vertex> m_Vertices;
 
         std::unique_ptr<Instance> instance;
@@ -87,8 +90,10 @@ namespace eng
 
     private:
         void IInit();
+        void IInit(VulkanSettings &s);
         void IShutdown();
         void IOnUpdate();
         void IOnWindowResize(WindowResizeEvent &e);
+        void IChangeSettings(VulkanSettings &s);
     };
 }
