@@ -17,6 +17,7 @@ add_executable(Engine
     "src/Vulkan/CommandPool.cpp"
     "src/Vulkan/CommandBuffers.cpp"
     "src/Vulkan/SyncObjects.cpp"
+    "src/Vulkan/DrawFrame.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    

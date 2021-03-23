@@ -88,6 +88,8 @@ namespace eng
         std::unique_ptr<CommandBuffers> commandBuffers;
         std::unique_ptr<SyncObjects> syncObjects;
 
+        const size_t MAX_FRAMES_IN_FLIGHT = 2;
+
     private:
         void IInit();
         void IInit(VulkanSettings &s);
@@ -95,5 +97,9 @@ namespace eng
         void IOnUpdate();
         void IOnWindowResize(WindowResizeEvent &e);
         void IChangeSettings(VulkanSettings &s);
+
+        size_t CurrentFrame = 0;
+        bool m_FramebufferResized = false;
+        void DrawFrame();
     };
 }

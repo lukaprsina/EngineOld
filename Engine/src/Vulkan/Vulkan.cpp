@@ -52,6 +52,8 @@ namespace eng
 
     void Vulkan::IOnUpdate()
     {
+        DrawFrame();
+        vkDeviceWaitIdle(logicalDevice->m_VkLogicalDevice);
     }
 
     void Vulkan::IOnWindowResize(WindowResizeEvent &e)
