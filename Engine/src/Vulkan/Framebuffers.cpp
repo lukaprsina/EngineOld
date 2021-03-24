@@ -2,7 +2,7 @@
 #include "Vulkan/SwapChain.h"
 #include "Vulkan/ImageViews.h"
 #include "Vulkan/RenderPass.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 
 namespace eng
 {

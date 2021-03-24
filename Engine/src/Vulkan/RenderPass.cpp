@@ -1,6 +1,6 @@
 #include "Vulkan/RenderPass.h"
 #include "Vulkan/SwapChain.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 
 namespace eng
 {

@@ -1,21 +1,31 @@
 #include "Vulkan/Vulkan.h"
 
 #include "Vulkan/Instance.h"
-#include "Vulkan/DebugMessenger.h"
-#include "Vulkan/PhysicalDevice.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 #include "Vulkan/SwapChain.h"
 #include "Vulkan/ImageViews.h"
 #include "Vulkan/RenderPass.h"
 #include "Vulkan/GraphicsPipeline.h"
 #include "Vulkan/Framebuffers.h"
-#include "Vulkan/CommandPool.h"
-#include "Vulkan/CommandBuffers.h"
+#include "Vulkan/Commands.h"
+#include "Vulkan/Buffers.h"
 #include "Vulkan/SyncObjects.h"
 
 namespace eng
 {
     Vulkan::Vulkan()
+        : /* m_Vertices{
+              {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+              {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+              {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+              {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}},
+          m_Indices{0, 1, 2, 2, 3, 0} */
+          m_Vertices{
+              {{-0.5f, -0.005f}, {1.0f, 0.0f, 0.0f}},
+              {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+              {{0.5f, -0.495f}, {0.0f, 0.0f, 1.0f}},
+              {{-0.5f, -0.0f}, {1.0f, 1.0f, 1.0f}}},
+          m_Indices{0, 1, 2, 2, 3, 0}
     {
     }
 
@@ -40,6 +50,9 @@ namespace eng
         framebuffers = std::make_unique<Framebuffers>();
 
         commandPool = std::make_unique<CommandPool>();
+        memory = std::make_unique<Memory>();
+        vertexBuffer = std::make_unique<VertexBuffer>();
+        indexBuffer = std::make_unique<IndexBuffer>();
         commandBuffers = std::make_unique<CommandBuffers>();
         syncObjects = std::make_unique<SyncObjects>();
     }

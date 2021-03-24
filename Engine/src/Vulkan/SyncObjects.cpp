@@ -1,5 +1,5 @@
 #include "Vulkan/SyncObjects.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 #include "Vulkan/SwapChain.h"
 
 namespace eng

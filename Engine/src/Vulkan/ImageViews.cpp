@@ -1,6 +1,6 @@
 #include "Vulkan/Vulkan.h"
 #include "Vulkan/ImageViews.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 #include "Vulkan/SwapChain.h"
 
 namespace eng

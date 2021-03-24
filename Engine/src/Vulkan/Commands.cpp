@@ -1,13 +1,30 @@
-#include "Vulkan/CommandBuffers.h"
-#include "Vulkan/CommandPool.h"
+#include "Vulkan/Commands.h"
 #include "Vulkan/Framebuffers.h"
-#include "Vulkan/LogicalDevice.h"
+#include "Vulkan/Device.h"
 #include "Vulkan/SwapChain.h"
 #include "Vulkan/RenderPass.h"
 #include "Vulkan/GraphicsPipeline.h"
+#include "Vulkan/Buffers.h"
 
 namespace eng
 {
+    CommandPool::CommandPool()
+    {
+        VkCommandPoolCreateInfo poolInfo{};
+        poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+        poolInfo.queueFamilyIndex = Vulkan::Get().physicalDevice->GPUProperties.graphicsFamily.value();
+
+        if (vkCreateCommandPool(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &poolInfo, nullptr, &m_VkCommandPool) != VK_SUCCESS)
+        {
+            throw std::runtime_error("failed to create command pool!");
+        }
+    }
+
+    CommandPool::~CommandPool()
+    {
+        vkDestroyCommandPool(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkCommandPool, nullptr);
+    }
+
     CommandBuffers::CommandBuffers()
     {
         auto swapChainExtent = Vulkan::Get().swapChain->m_VkSwapChainExtent;
@@ -51,6 +68,14 @@ namespace eng
 
             vkCmdBindPipeline(m_VkCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, Vulkan::Get().graphicsPipeline->m_VkGraphicsPipeline);
 
+            VkBuffer vertexBuffers[] = {Vulkan::Get().vertexBuffer->m_VkVertexBuffer};
+            VkDeviceSize offsets[] = {0};
+            vkCmdBindVertexBuffers(m_VkCommandBuffers[i], 0, 1, vertexBuffers, offsets);
+
+            vkCmdBindIndexBuffer(m_VkCommandBuffers[i],
+                                 Vulkan::Get().indexBuffer->m_VkIndexBuffer,
+                                 0, VK_INDEX_TYPE_UINT16);
+
             VkViewport viewport{};
             viewport.x = 0.0f;
             viewport.y = 0.0f;
@@ -65,7 +90,7 @@ namespace eng
             scissor.extent = swapChainExtent;
             vkCmdSetScissor(m_VkCommandBuffers[i], 0, 1, &scissor);
 
-            vkCmdDraw(m_VkCommandBuffers[i], 3, 1, 0, 0);
+            vkCmdDrawIndexed(m_VkCommandBuffers[i], Vulkan::Get().m_Indices.size(), 1, 0, 0, 0);
 
             vkCmdEndRenderPass(m_VkCommandBuffers[i]);
 

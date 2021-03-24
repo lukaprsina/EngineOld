@@ -30,4 +30,15 @@ namespace eng
         bool CheckDeviceExtensionSupport(const VkPhysicalDevice &device);
         uint32_t ScorePhysicalDevice(const DeviceInfo &indices);
     };
+
+    class LogicalDevice
+    {
+    public:
+        LogicalDevice();
+        ~LogicalDevice();
+
+        VkDevice m_VkLogicalDevice;
+        VkQueue m_VkGraphicsQueue;
+        VkQueue m_VkPresentQueue;
+    };
 }

@@ -1,7 +1,6 @@
 #include "Vulkan/SwapChain.h"
 #include "Vulkan/Instance.h"
-#include "Vulkan/LogicalDevice.h"
-#include "Vulkan/PhysicalDevice.h"
+#include "Vulkan/Device.h"
 
 namespace eng
 {

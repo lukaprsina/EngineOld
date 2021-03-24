@@ -12,4 +12,13 @@ namespace eng
 
         VkCommandPool m_VkCommandPool;
     };
+
+    class CommandBuffers
+    {
+    public:
+        CommandBuffers();
+        ~CommandBuffers();
+
+        std::vector<VkCommandBuffer> m_VkCommandBuffers;
+    };
 }
