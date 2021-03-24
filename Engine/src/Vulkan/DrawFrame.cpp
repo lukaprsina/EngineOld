@@ -27,7 +27,7 @@ namespace eng
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR)
         {
-            //RecreateSwapChain();
+            Vulkan::RecreateSwapChain();
             return;
         }
         else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
@@ -81,7 +81,7 @@ namespace eng
         if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_FramebufferResized)
         {
             m_FramebufferResized = false;
-            // RecreateSwapChain();
+            Vulkan::Get().RecreateSwapChain();
         }
         else if (result != VK_SUCCESS)
         {

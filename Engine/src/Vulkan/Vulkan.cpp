@@ -90,4 +90,20 @@ namespace eng
     {
         Vulkan::Get().settings = s;
     }
+
+    void Vulkan::RecreateSwapChain()
+    {
+        vkDeviceWaitIdle(Vulkan::Get().logicalDevice->m_VkLogicalDevice);
+        Vulkan::Get().swapChain.reset();
+        Vulkan::Get().imageViews.reset();
+        Vulkan::Get().renderPass.reset();
+        Vulkan::Get().framebuffers.reset();
+        Vulkan::Get().commandBuffers.reset();
+
+        Vulkan::Get().swapChain = std::make_unique<SwapChain>();
+        Vulkan::Get().imageViews = std::make_unique<ImageViews>();
+        Vulkan::Get().renderPass = std::make_unique<RenderPass>();
+        Vulkan::Get().framebuffers = std::make_unique<Framebuffers>();
+        Vulkan::Get().commandBuffers = std::make_unique<CommandBuffers>();
+    }
 }

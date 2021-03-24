@@ -100,6 +100,7 @@ namespace eng
 
         size_t CurrentFrame = 0;
         bool m_FramebufferResized = false;
+        void RecreateSwapChain();
         void DrawFrame();
     };
 }
