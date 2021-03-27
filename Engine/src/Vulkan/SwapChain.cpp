@@ -6,8 +6,8 @@ namespace eng
 {
     SwapChain::SwapChain()
     {
-        auto GPUProperties = Vulkan::Get().physicalDevice->GPUProperties;
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
+        auto GPUProperties = Vulkan::Get()->physicalDevice->GPUProperties;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
 
         SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(GPUProperties.device);
 
@@ -24,7 +24,7 @@ namespace eng
 
         VkSwapchainCreateInfoKHR createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        createInfo.surface = Vulkan::Get().instance->m_VkSurface;
+        createInfo.surface = Vulkan::Get()->instance->m_VkSurface;
 
         createInfo.minImageCount = imageCount;
         createInfo.imageFormat = surfaceFormat.format;
@@ -69,12 +69,12 @@ namespace eng
 
     SwapChain::~SwapChain()
     {
-        vkDestroySwapchainKHR(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkSwapChain, nullptr);
+        vkDestroySwapchainKHR(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkSwapChain, nullptr);
     }
 
     SwapChainSupportDetails SwapChain::QuerySwapChainSupport(VkPhysicalDevice &device)
     {
-        auto surface = Vulkan::Get().instance->m_VkSurface;
+        auto surface = Vulkan::Get()->instance->m_VkSurface;
         SwapChainSupportDetails swapChainSupport;
 
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &swapChainSupport.capabilities);
@@ -102,7 +102,7 @@ namespace eng
 
     VkSurfaceFormatKHR SwapChain::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats)
     {
-        auto settings = Vulkan::Get().settings;
+        auto settings = Vulkan::Get()->settings;
 
         if (settings.SwapSurfaceFormat.has_value())
         {
@@ -130,7 +130,7 @@ namespace eng
 
     VkPresentModeKHR SwapChain::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes)
     {
-        auto settings = Vulkan::Get().settings;
+        auto settings = Vulkan::Get()->settings;
 
         if (settings.SwapSurfacePresentMode.has_value())
         {

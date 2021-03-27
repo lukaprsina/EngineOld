@@ -36,7 +36,7 @@ namespace eng
         instance = std::make_unique<Instance>();
         debugMessenger = std::make_unique<DebugMessenger>();
 
-        GLFW::CreateWindowSurface(instance->m_VkInstance, Vulkan::Get().instance->m_VkSurface);
+        GLFW::CreateWindowSurface(instance->m_VkInstance, Vulkan::Get()->instance->m_VkSurface);
 
         physicalDevice = std::make_unique<PhysicalDevice>();
         logicalDevice = std::make_unique<LogicalDevice>();
@@ -61,8 +61,8 @@ namespace eng
 
     void Vulkan::IInit(VulkanSettings &s)
     {
-        Vulkan::Get().settings = s;
-        Vulkan::Get().IInit();
+        Vulkan::Get()->settings = s;
+        Vulkan::Get()->IInit();
     }
 
     void Vulkan::IOnUpdate(float &time)
@@ -98,28 +98,28 @@ namespace eng
 
     void Vulkan::IChangeSettings(VulkanSettings &s)
     {
-        Vulkan::Get().settings = s;
+        Vulkan::Get()->settings = s;
     }
 
     void Vulkan::RecreateSwapChain()
     {
-        vkDeviceWaitIdle(Vulkan::Get().logicalDevice->m_VkLogicalDevice);
-        Vulkan::Get().commandBuffers.reset();
-        Vulkan::Get().descriptorSets.reset();
-        Vulkan::Get().descriptorPool.reset();
-        Vulkan::Get().uniformBuffer.reset();
-        Vulkan::Get().framebuffers.reset();
-        Vulkan::Get().renderPass.reset();
-        Vulkan::Get().imageViews.reset();
-        Vulkan::Get().swapChain.reset();
+        vkDeviceWaitIdle(Vulkan::Get()->logicalDevice->m_VkLogicalDevice);
+        Vulkan::Get()->commandBuffers.reset();
+        Vulkan::Get()->descriptorSets.reset();
+        Vulkan::Get()->descriptorPool.reset();
+        Vulkan::Get()->uniformBuffer.reset();
+        Vulkan::Get()->framebuffers.reset();
+        Vulkan::Get()->renderPass.reset();
+        Vulkan::Get()->imageViews.reset();
+        Vulkan::Get()->swapChain.reset();
 
-        Vulkan::Get().swapChain = std::make_unique<SwapChain>();
-        Vulkan::Get().imageViews = std::make_unique<ImageViews>();
-        Vulkan::Get().renderPass = std::make_unique<RenderPass>();
-        Vulkan::Get().framebuffers = std::make_unique<Framebuffers>();
-        Vulkan::Get().uniformBuffer = std::make_unique<UniformBuffer>();
-        Vulkan::Get().descriptorPool = std::make_unique<DescriptorPool>();
-        Vulkan::Get().descriptorSets = std::make_unique<DescriptorSets>();
-        Vulkan::Get().commandBuffers = std::make_unique<CommandBuffers>();
+        Vulkan::Get()->swapChain = std::make_unique<SwapChain>();
+        Vulkan::Get()->imageViews = std::make_unique<ImageViews>();
+        Vulkan::Get()->renderPass = std::make_unique<RenderPass>();
+        Vulkan::Get()->framebuffers = std::make_unique<Framebuffers>();
+        Vulkan::Get()->uniformBuffer = std::make_unique<UniformBuffer>();
+        Vulkan::Get()->descriptorPool = std::make_unique<DescriptorPool>();
+        Vulkan::Get()->descriptorSets = std::make_unique<DescriptorSets>();
+        Vulkan::Get()->commandBuffers = std::make_unique<CommandBuffers>();
     }
 }

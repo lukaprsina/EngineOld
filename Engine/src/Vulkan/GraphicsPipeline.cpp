@@ -91,10 +91,10 @@ namespace eng
         VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
         pipelineLayoutInfo.setLayoutCount = 1;
-        pipelineLayoutInfo.pSetLayouts = &Vulkan::Get().descriptorSetLayout->m_VkDescriptorSetLayout;
+        pipelineLayoutInfo.pSetLayouts = &Vulkan::Get()->descriptorSetLayout->m_VkDescriptorSetLayout;
         pipelineLayoutInfo.pushConstantRangeCount = 0;
 
-        if (vkCreatePipelineLayout(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &pipelineLayoutInfo, nullptr, &m_VkPipelineLayout) != VK_SUCCESS)
+        if (vkCreatePipelineLayout(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &pipelineLayoutInfo, nullptr, &m_VkPipelineLayout) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create pipeline layout!");
         }
@@ -112,10 +112,10 @@ namespace eng
         pipelineInfo.pDynamicState = &dynamicState;
 
         pipelineInfo.layout = m_VkPipelineLayout;
-        pipelineInfo.renderPass = Vulkan::Get().renderPass->m_VkRenderPass;
+        pipelineInfo.renderPass = Vulkan::Get()->renderPass->m_VkRenderPass;
         pipelineInfo.subpass = 0;
 
-        if (vkCreateGraphicsPipelines(Vulkan::Get().logicalDevice->m_VkLogicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_VkGraphicsPipeline) != VK_SUCCESS)
+        if (vkCreateGraphicsPipelines(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_VkGraphicsPipeline) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create graphics pipeline!");
         }
@@ -123,14 +123,14 @@ namespace eng
         delete vertShaderCode;
         delete fragShaderCode;
 
-        vkDestroyShaderModule(Vulkan::Get().logicalDevice->m_VkLogicalDevice, fragShaderModule, nullptr);
-        vkDestroyShaderModule(Vulkan::Get().logicalDevice->m_VkLogicalDevice, vertShaderModule, nullptr);
+        vkDestroyShaderModule(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, fragShaderModule, nullptr);
+        vkDestroyShaderModule(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, vertShaderModule, nullptr);
     }
 
     GraphicsPipeline::~GraphicsPipeline()
     {
-        vkDestroyPipeline(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkGraphicsPipeline, nullptr);
-        vkDestroyPipelineLayout(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkPipelineLayout, nullptr);
+        vkDestroyPipeline(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkGraphicsPipeline, nullptr);
+        vkDestroyPipelineLayout(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkPipelineLayout, nullptr);
     }
 
     VkShaderModule GraphicsPipeline::CreateShaderModule(const std::vector<char> &code)
@@ -141,7 +141,7 @@ namespace eng
         createInfo.pCode = reinterpret_cast<const uint32_t *>(code.data());
 
         VkShaderModule shaderModule;
-        if (vkCreateShaderModule(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
+        if (vkCreateShaderModule(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create shader module!");
         }

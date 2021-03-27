@@ -19,7 +19,7 @@ namespace eng
         layoutInfo.bindingCount = 1;
         layoutInfo.pBindings = &uboLayoutBinding;
 
-        if (vkCreateDescriptorSetLayout(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &layoutInfo, nullptr, &m_VkDescriptorSetLayout) != VK_SUCCESS)
+        if (vkCreateDescriptorSetLayout(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &layoutInfo, nullptr, &m_VkDescriptorSetLayout) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create descriptor set layout!");
         }
@@ -27,13 +27,13 @@ namespace eng
 
     DescriptorSetLayout::~DescriptorSetLayout()
     {
-        vkDestroyDescriptorSetLayout(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkDescriptorSetLayout, nullptr);
+        vkDestroyDescriptorSetLayout(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkDescriptorSetLayout, nullptr);
     }
 
     DescriptorPool::DescriptorPool()
     {
-        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
+        auto swapChainImages = Vulkan::Get()->swapChain->m_VkSwapChainImages;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
 
         VkDescriptorPoolSize poolSize{};
         poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -53,19 +53,19 @@ namespace eng
 
     DescriptorPool::~DescriptorPool()
     {
-        vkDestroyDescriptorPool(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkDescriptorPool, nullptr);
+        vkDestroyDescriptorPool(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkDescriptorPool, nullptr);
     }
 
     DescriptorSets::DescriptorSets()
     {
-        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
+        auto swapChainImages = Vulkan::Get()->swapChain->m_VkSwapChainImages;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
 
-        std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), Vulkan::Get().descriptorSetLayout->m_VkDescriptorSetLayout);
+        std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), Vulkan::Get()->descriptorSetLayout->m_VkDescriptorSetLayout);
 
         VkDescriptorSetAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-        allocInfo.descriptorPool = Vulkan::Get().descriptorPool->m_VkDescriptorPool;
+        allocInfo.descriptorPool = Vulkan::Get()->descriptorPool->m_VkDescriptorPool;
         allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
         allocInfo.pSetLayouts = layouts.data();
 
@@ -78,7 +78,7 @@ namespace eng
         for (size_t i = 0; i < swapChainImages.size(); i++)
         {
             VkDescriptorBufferInfo bufferInfo{};
-            bufferInfo.buffer = Vulkan::Get().uniformBuffer->m_VkUniformBuffers[i];
+            bufferInfo.buffer = Vulkan::Get()->uniformBuffer->m_VkUniformBuffers[i];
             bufferInfo.offset = 0;
             bufferInfo.range = sizeof(MVP);
 

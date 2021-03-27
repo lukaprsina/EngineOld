@@ -8,14 +8,14 @@ namespace eng
 {
     Memory::Memory()
     {
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
-        auto vertices = Vulkan::Get().m_Vertices;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
+        auto vertices = Vulkan::Get()->m_Vertices;
 
         VmaAllocatorCreateInfo allocatorInfo = {};
         allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_2;
-        allocatorInfo.physicalDevice = Vulkan::Get().physicalDevice->GPUProperties.device;
+        allocatorInfo.physicalDevice = Vulkan::Get()->physicalDevice->GPUProperties.device;
         allocatorInfo.device = logicalDevice;
-        allocatorInfo.instance = Vulkan::Get().instance->m_VkInstance;
+        allocatorInfo.instance = Vulkan::Get()->instance->m_VkInstance;
 
         vmaCreateAllocator(&allocatorInfo, &m_VmaMemory);
     }
@@ -27,13 +27,13 @@ namespace eng
 
     void Memory::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
     {
-        auto graphicsQueue = Vulkan::Get().logicalDevice->m_VkGraphicsQueue;
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
+        auto graphicsQueue = Vulkan::Get()->logicalDevice->m_VkGraphicsQueue;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
 
         VkCommandBufferAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        allocInfo.commandPool = Vulkan::Get().commandPool->m_VkCommandPool;
+        allocInfo.commandPool = Vulkan::Get()->commandPool->m_VkCommandPool;
         allocInfo.commandBufferCount = 1;
 
         VkCommandBuffer commandBuffer;
@@ -59,13 +59,13 @@ namespace eng
         vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
         vkQueueWaitIdle(graphicsQueue);
 
-        vkFreeCommandBuffers(logicalDevice, Vulkan::Get().commandPool->m_VkCommandPool, 1, &commandBuffer);
+        vkFreeCommandBuffers(logicalDevice, Vulkan::Get()->commandPool->m_VkCommandPool, 1, &commandBuffer);
     }
 
     VertexBuffer::VertexBuffer()
     {
-        auto memory = Vulkan::Get().memory->m_VmaMemory;
-        auto vertices = Vulkan::Get().m_Vertices;
+        auto memory = Vulkan::Get()->memory->m_VmaMemory;
+        auto vertices = Vulkan::Get()->m_Vertices;
         VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
         VkBuffer stagingBuffer;
@@ -109,13 +109,13 @@ namespace eng
 
     VertexBuffer::~VertexBuffer()
     {
-        vmaDestroyBuffer(Vulkan::Get().memory->m_VmaMemory, m_VkVertexBuffer, m_VmaVertexAllocation);
+        vmaDestroyBuffer(Vulkan::Get()->memory->m_VmaMemory, m_VkVertexBuffer, m_VmaVertexAllocation);
     }
 
     IndexBuffer::IndexBuffer()
     {
-        auto memory = Vulkan::Get().memory->m_VmaMemory;
-        auto indices = Vulkan::Get().m_Indices;
+        auto memory = Vulkan::Get()->memory->m_VmaMemory;
+        auto indices = Vulkan::Get()->m_Indices;
         VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
         VkBuffer stagingBuffer;
@@ -159,14 +159,14 @@ namespace eng
 
     IndexBuffer::~IndexBuffer()
     {
-        vmaDestroyBuffer(Vulkan::Get().memory->m_VmaMemory, m_VkIndexBuffer, m_VmaIndexAllocation);
+        vmaDestroyBuffer(Vulkan::Get()->memory->m_VmaMemory, m_VkIndexBuffer, m_VmaIndexAllocation);
     }
 
     UniformBuffer::UniformBuffer()
     {
-        auto memory = Vulkan::Get().memory->m_VmaMemory;
-        auto indices = Vulkan::Get().m_Indices;
-        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
+        auto memory = Vulkan::Get()->memory->m_VmaMemory;
+        auto indices = Vulkan::Get()->m_Indices;
+        auto swapChainImages = Vulkan::Get()->swapChain->m_VkSwapChainImages;
         VkDeviceSize bufferSize = sizeof(MVP);
 
         m_VkUniformBuffers.resize(swapChainImages.size());
@@ -191,15 +191,15 @@ namespace eng
 
     UniformBuffer::~UniformBuffer()
     {
-        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
+        auto swapChainImages = Vulkan::Get()->swapChain->m_VkSwapChainImages;
         for (size_t i = 0; i < swapChainImages.size(); i++)
-            vmaDestroyBuffer(Vulkan::Get().memory->m_VmaMemory, m_VkUniformBuffers[i], m_VmaUniformAllocations[i]);
+            vmaDestroyBuffer(Vulkan::Get()->memory->m_VmaMemory, m_VkUniformBuffers[i], m_VmaUniformAllocations[i]);
     }
 
     void UniformBuffer::OnUpdate(uint32_t currentImage, float &time)
     {
-        auto swapChainExtent = Vulkan::Get().swapChain->m_VkSwapChainExtent;
-        auto memory = Vulkan::Get().memory->m_VmaMemory;
+        auto swapChainExtent = Vulkan::Get()->swapChain->m_VkSwapChainExtent;
+        auto memory = Vulkan::Get()->memory->m_VmaMemory;
 
         MVP mvp;
         mvp.Model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));

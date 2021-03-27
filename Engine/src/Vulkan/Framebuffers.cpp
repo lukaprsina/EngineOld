@@ -6,8 +6,8 @@ namespace eng
 {
     Framebuffers::Framebuffers()
     {
-        auto imageViews = Vulkan::Get().imageViews->m_VkSwapChainImageViews;
-        auto swapChainExtent = Vulkan::Get().swapChain->m_VkSwapChainExtent;
+        auto imageViews = Vulkan::Get()->imageViews->m_VkSwapChainImageViews;
+        auto swapChainExtent = Vulkan::Get()->swapChain->m_VkSwapChainExtent;
 
         m_VkSwapChainFramebuffers.resize(imageViews.size());
         for (size_t i = 0; i < imageViews.size(); i++)
@@ -17,14 +17,14 @@ namespace eng
 
             VkFramebufferCreateInfo framebufferInfo{};
             framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-            framebufferInfo.renderPass = Vulkan::Get().renderPass->m_VkRenderPass;
+            framebufferInfo.renderPass = Vulkan::Get()->renderPass->m_VkRenderPass;
             framebufferInfo.attachmentCount = 1;
             framebufferInfo.pAttachments = attachments;
             framebufferInfo.width = swapChainExtent.width;
             framebufferInfo.height = swapChainExtent.height;
             framebufferInfo.layers = 1;
 
-            if (vkCreateFramebuffer(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &framebufferInfo, nullptr, &m_VkSwapChainFramebuffers[i]) != VK_SUCCESS)
+            if (vkCreateFramebuffer(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &framebufferInfo, nullptr, &m_VkSwapChainFramebuffers[i]) != VK_SUCCESS)
             {
                 throw std::runtime_error("failed to create framebuffer!");
             }
@@ -35,14 +35,14 @@ namespace eng
     {
         for (auto framebuffer : m_VkSwapChainFramebuffers)
         {
-            vkDestroyFramebuffer(Vulkan::Get().logicalDevice->m_VkLogicalDevice, framebuffer, nullptr);
+            vkDestroyFramebuffer(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, framebuffer, nullptr);
         }
     }
 
     RenderPass::RenderPass()
     {
         VkAttachmentDescription colorAttachment{};
-        colorAttachment.format = Vulkan::Get().swapChain->m_VkSwapChainImageFormat;
+        colorAttachment.format = Vulkan::Get()->swapChain->m_VkSwapChainImageFormat;
         colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
         colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -77,7 +77,7 @@ namespace eng
         renderPassInfo.dependencyCount = 1;
         renderPassInfo.pDependencies = &dependency;
 
-        if (vkCreateRenderPass(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &renderPassInfo, nullptr, &m_VkRenderPass) != VK_SUCCESS)
+        if (vkCreateRenderPass(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &renderPassInfo, nullptr, &m_VkRenderPass) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create render pass!");
         }
@@ -85,12 +85,12 @@ namespace eng
 
     RenderPass::~RenderPass()
     {
-        vkDestroyRenderPass(Vulkan::Get().logicalDevice->m_VkLogicalDevice, m_VkRenderPass, nullptr);
+        vkDestroyRenderPass(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, m_VkRenderPass, nullptr);
     }
 
     ImageViews::ImageViews()
     {
-        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
+        auto swapChainImages = Vulkan::Get()->swapChain->m_VkSwapChainImages;
         m_VkSwapChainImageViews.resize(swapChainImages.size());
 
         for (size_t i = 0; i < swapChainImages.size(); i++)
@@ -100,7 +100,7 @@ namespace eng
             createInfo.image = swapChainImages[i];
 
             createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-            createInfo.format = Vulkan::Get().swapChain->m_VkSwapChainImageFormat;
+            createInfo.format = Vulkan::Get()->swapChain->m_VkSwapChainImageFormat;
 
             createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
             createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -113,7 +113,7 @@ namespace eng
             createInfo.subresourceRange.baseArrayLayer = 0;
             createInfo.subresourceRange.layerCount = 1;
 
-            if (vkCreateImageView(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &createInfo, nullptr, &m_VkSwapChainImageViews[i]) != VK_SUCCESS)
+            if (vkCreateImageView(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &createInfo, nullptr, &m_VkSwapChainImageViews[i]) != VK_SUCCESS)
             {
                 throw std::runtime_error("failed to create image views!");
             }
@@ -124,7 +124,7 @@ namespace eng
     {
         for (auto imageView : m_VkSwapChainImageViews)
         {
-            vkDestroyImageView(Vulkan::Get().logicalDevice->m_VkLogicalDevice, imageView, nullptr);
+            vkDestroyImageView(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, imageView, nullptr);
         }
     }
 }

@@ -11,11 +11,11 @@ namespace eng
 {
     void Vulkan::DrawFrame(float &time)
     {
-        auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
-        auto swapChain = Vulkan::Get().swapChain->m_VkSwapChain;
-        auto inFlightFences = Vulkan::Get().syncObjects->m_VkInFlightFences;
-        auto imageAvailableSemaphores = Vulkan::Get().syncObjects->m_VkImageAvailableSemaphores;
-        auto imagesInFlight = Vulkan::Get().syncObjects->m_VkImagesInFlight;
+        auto logicalDevice = Vulkan::Get()->logicalDevice->m_VkLogicalDevice;
+        auto swapChain = Vulkan::Get()->swapChain->m_VkSwapChain;
+        auto inFlightFences = Vulkan::Get()->syncObjects->m_VkInFlightFences;
+        auto imageAvailableSemaphores = Vulkan::Get()->syncObjects->m_VkImageAvailableSemaphores;
+        auto imagesInFlight = Vulkan::Get()->syncObjects->m_VkImagesInFlight;
 
         vkWaitForFences(logicalDevice, 1,
                         &inFlightFences[CurrentFrame],
@@ -43,7 +43,7 @@ namespace eng
 
         imagesInFlight[imageIndex] = inFlightFences[CurrentFrame];
 
-        Vulkan::Get().uniformBuffer->OnUpdate(imageIndex, time);
+        Vulkan::Get()->uniformBuffer->OnUpdate(imageIndex, time);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -55,15 +55,15 @@ namespace eng
         submitInfo.pWaitDstStageMask = waitStages;
 
         submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &Vulkan::Get().commandBuffers->m_VkCommandBuffers[imageIndex];
+        submitInfo.pCommandBuffers = &Vulkan::Get()->commandBuffers->m_VkCommandBuffers[imageIndex];
 
-        VkSemaphore signalSemaphores[] = {Vulkan::Get().syncObjects->m_VkRenderFinishedSemaphores[CurrentFrame]};
+        VkSemaphore signalSemaphores[] = {Vulkan::Get()->syncObjects->m_VkRenderFinishedSemaphores[CurrentFrame]};
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
         vkResetFences(logicalDevice, 1, &inFlightFences[CurrentFrame]);
 
-        if (vkQueueSubmit(Vulkan::Get().logicalDevice->m_VkGraphicsQueue, 1, &submitInfo, inFlightFences[CurrentFrame]) != VK_SUCCESS)
+        if (vkQueueSubmit(Vulkan::Get()->logicalDevice->m_VkGraphicsQueue, 1, &submitInfo, inFlightFences[CurrentFrame]) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
@@ -79,12 +79,12 @@ namespace eng
         presentInfo.pSwapchains = swapChains;
         presentInfo.pImageIndices = &imageIndex;
 
-        result = vkQueuePresentKHR(Vulkan::Get().logicalDevice->m_VkPresentQueue, &presentInfo);
+        result = vkQueuePresentKHR(Vulkan::Get()->logicalDevice->m_VkPresentQueue, &presentInfo);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_FramebufferResized)
         {
             m_FramebufferResized = false;
-            Vulkan::Get().RecreateSwapChain();
+            Vulkan::Get()->RecreateSwapChain();
         }
         else if (result != VK_SUCCESS)
         {
@@ -93,8 +93,8 @@ namespace eng
 
         CurrentFrame = (CurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
-        /* auto timelineSemaphore = Vulkan::Get().syncObjects->m_VkTimeline;
-        auto commandBuffers = Vulkan::Get().commandBuffers->m_VkCommandBuffers;
+        /* auto timelineSemaphore = Vulkan::Get()->syncObjects->m_VkTimeline;
+        auto commandBuffers = Vulkan::Get()->commandBuffers->m_VkCommandBuffers;
 
         const uint64_t waitValue1 = 0;
         const uint64_t signalValue1 = 1;
@@ -107,8 +107,8 @@ namespace eng
         timelineInfo.pSignalSemaphoreValues = &signalValue1;
 
         uint32_t imageIndex;
-        VkResult result = vkAcquireNextImageKHR(Vulkan::Get().logicalDevice->m_VkLogicalDevice,
-                                                Vulkan::Get().swapChain->m_VkSwapChain,
+        VkResult result = vkAcquireNextImageKHR(Vulkan::Get()->logicalDevice->m_VkLogicalDevice,
+                                                Vulkan::Get()->swapChain->m_VkSwapChain,
                                                 UINT64_MAX,
                                                 timelineSemaphore,
                                                 VK_NULL_HANDLE,
@@ -125,7 +125,7 @@ namespace eng
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &commandBuffers[imageIndex];
 
-        if (vkQueueSubmit(Vulkan::Get().logicalDevice->m_VkGraphicsQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS)
+        if (vkQueueSubmit(Vulkan::Get()->logicalDevice->m_VkGraphicsQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
@@ -140,6 +140,6 @@ namespace eng
         waitInfo.pSemaphores = &timelineSemaphore;
         waitInfo.pValues = &waitValue2;
 
-        vkWaitSemaphores(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &waitInfo, UINT64_MAX); */
+        vkWaitSemaphores(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, &waitInfo, UINT64_MAX); */
     }
 }

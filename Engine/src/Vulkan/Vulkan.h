@@ -104,12 +104,12 @@ namespace eng
             return instance;
         }
 
-        static void Init() { return Get().IInit(); }
-        static void Init(VulkanSettings &s) { return Get().IInit(s); }
-        static void Shutdown() { return Get().IShutdown(); }
-        static void OnUpdate(float &time) { return Get().IOnUpdate(time); }
-        static void OnWindowResize(WindowResizeEvent &e) { return Get().IOnWindowResize(e); }
-        static void ChangeSettings(VulkanSettings &s) { return Get().IChangeSettings(s); }
+        static void Init() { return Get()->IInit(); }
+        static void Init(VulkanSettings &s) { return Get()->IInit(s); }
+        static void Shutdown() { return Get()->IShutdown(); }
+        static void OnUpdate(float &time) { return Get()->IOnUpdate(time); }
+        static void OnWindowResize(WindowResizeEvent &e) { return Get()->IOnWindowResize(e); }
+        static void ChangeSettings(VulkanSettings &s) { return Get()->IChangeSettings(s); }
 
         static bool AreValidationLayersEnabled();
         static bool CheckValidationLayerSupport(const std::vector<const char *> &validationLayers);

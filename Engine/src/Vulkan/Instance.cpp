@@ -43,9 +43,9 @@ namespace eng
 {
     Instance::Instance()
     {
-        auto settings = Vulkan::Get().settings;
+        auto settings = Vulkan::Get()->settings;
 
-        auto debugCreateInfo = Vulkan::Get().debugMessenger->Populate();
+        auto debugCreateInfo = Vulkan::Get()->debugMessenger->Populate();
 
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -69,7 +69,7 @@ namespace eng
         createInfo.enabledExtensionCount = requiredExtensions.size();
         createInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
-        if (Vulkan::AreValidationLayersEnabled() && !Vulkan::CheckValidationLayerSupport(Vulkan::Get().ValidationLayers))
+        if (Vulkan::AreValidationLayersEnabled() && !Vulkan::CheckValidationLayerSupport(Vulkan::Get()->ValidationLayers))
         {
             throw std::runtime_error("validation layers requested, but not available!");
         }
@@ -78,8 +78,8 @@ namespace eng
 
         if (Vulkan::AreValidationLayersEnabled())
         {
-            createInfo.enabledLayerCount = Vulkan::Get().ValidationLayers.size();
-            createInfo.ppEnabledLayerNames = Vulkan::Get().ValidationLayers.data();
+            createInfo.enabledLayerCount = Vulkan::Get()->ValidationLayers.size();
+            createInfo.ppEnabledLayerNames = Vulkan::Get()->ValidationLayers.data();
         }
         else
         {
@@ -136,7 +136,7 @@ namespace eng
 
         m_DebugCreateInfo = Populate();
 
-        if (CreateDebugUtilsMessengerEXT(Vulkan::Get().instance->m_VkInstance, &m_DebugCreateInfo, nullptr, &m_VkDebugMessenger) != VK_SUCCESS)
+        if (CreateDebugUtilsMessengerEXT(Vulkan::Get()->instance->m_VkInstance, &m_DebugCreateInfo, nullptr, &m_VkDebugMessenger) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to set up debug messenger!");
         }
@@ -146,13 +146,13 @@ namespace eng
     {
         if (Vulkan::AreValidationLayersEnabled())
         {
-            DestroyDebugUtilsMessengerEXT(Vulkan::Get().instance->m_VkInstance, m_VkDebugMessenger, nullptr);
+            DestroyDebugUtilsMessengerEXT(Vulkan::Get()->instance->m_VkInstance, m_VkDebugMessenger, nullptr);
         }
     }
 
     VkDebugUtilsMessengerCreateInfoEXT DebugMessenger::Populate()
     {
-        auto settings = Vulkan::Get().settings;
+        auto settings = Vulkan::Get()->settings;
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
         debugCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;

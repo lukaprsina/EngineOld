@@ -8,7 +8,7 @@ namespace eng
         uint32_t deviceCount = 0;
         std::vector<VkPhysicalDevice> devices;
 
-        vkEnumeratePhysicalDevices(Vulkan::Get().instance->m_VkInstance, &deviceCount, nullptr);
+        vkEnumeratePhysicalDevices(Vulkan::Get()->instance->m_VkInstance, &deviceCount, nullptr);
 
         if (deviceCount == 0)
         {
@@ -16,7 +16,7 @@ namespace eng
         }
 
         devices.resize(deviceCount);
-        vkEnumeratePhysicalDevices(Vulkan::Get().instance->m_VkInstance, &deviceCount, devices.data());
+        vkEnumeratePhysicalDevices(Vulkan::Get()->instance->m_VkInstance, &deviceCount, devices.data());
 
         std::multimap<int, DeviceInfo> candidates;
 
@@ -28,11 +28,11 @@ namespace eng
             candidates.insert(std::make_pair(score, indices));
         }
 
-        if (Vulkan::Get().settings.GPU.has_value())
+        if (Vulkan::Get()->settings.GPU.has_value())
         {
             for (auto &candidate : candidates)
             {
-                if (candidate.second.device == Vulkan::Get().settings.GPU.value())
+                if (candidate.second.device == Vulkan::Get()->settings.GPU.value())
                 {
                     if (candidate.first != 0)
                         GPUProperties = candidate.second;
@@ -80,7 +80,7 @@ namespace eng
         for (uint32_t i = 0; i < queueFamilyCount; i++)
         {
             supportedIndices support;
-            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get().instance->m_VkSurface, &support.presentFamily);
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, Vulkan::Get()->instance->m_VkSurface, &support.presentFamily);
 
             if (support.presentFamily)
                 score++;
@@ -166,7 +166,7 @@ namespace eng
         availableExtensions.resize(extensionCount);
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
-        return Vulkan::IsSubset(Vulkan::Get().DeviceExtensions, Vulkan::Get().DeviceExtensions.size(), availableExtensions, availableExtensions.size());
+        return Vulkan::IsSubset(Vulkan::Get()->DeviceExtensions, Vulkan::Get()->DeviceExtensions.size(), availableExtensions, availableExtensions.size());
     }
 
     uint32_t PhysicalDevice::ScorePhysicalDevice(const DeviceInfo &indices)
@@ -212,31 +212,31 @@ namespace eng
         VkDeviceCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-        createInfo.queueCreateInfoCount = Vulkan::Get().physicalDevice->m_VkQueueCreateInfos.size();
-        createInfo.pQueueCreateInfos = Vulkan::Get().physicalDevice->m_VkQueueCreateInfos.data();
+        createInfo.queueCreateInfoCount = Vulkan::Get()->physicalDevice->m_VkQueueCreateInfos.size();
+        createInfo.pQueueCreateInfos = Vulkan::Get()->physicalDevice->m_VkQueueCreateInfos.data();
 
         createInfo.pEnabledFeatures = &deviceFeatures;
 
-        createInfo.enabledExtensionCount = Vulkan::Get().DeviceExtensions.size();
-        createInfo.ppEnabledExtensionNames = Vulkan::Get().DeviceExtensions.data();
+        createInfo.enabledExtensionCount = Vulkan::Get()->DeviceExtensions.size();
+        createInfo.ppEnabledExtensionNames = Vulkan::Get()->DeviceExtensions.data();
 
         if (Vulkan::AreValidationLayersEnabled())
         {
-            createInfo.enabledLayerCount = static_cast<uint32_t>(Vulkan::Get().ValidationLayers.size());
-            createInfo.ppEnabledLayerNames = Vulkan::Get().ValidationLayers.data();
+            createInfo.enabledLayerCount = static_cast<uint32_t>(Vulkan::Get()->ValidationLayers.size());
+            createInfo.ppEnabledLayerNames = Vulkan::Get()->ValidationLayers.data();
         }
         else
         {
             createInfo.enabledLayerCount = 0;
         }
 
-        if (vkCreateDevice(Vulkan::Get().physicalDevice->GPUProperties.device, &createInfo, nullptr, &m_VkLogicalDevice) != VK_SUCCESS)
+        if (vkCreateDevice(Vulkan::Get()->physicalDevice->GPUProperties.device, &createInfo, nullptr, &m_VkLogicalDevice) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create logical device!");
         }
 
-        vkGetDeviceQueue(m_VkLogicalDevice, Vulkan::Get().physicalDevice->GPUProperties.graphicsFamily.value(), 0, &m_VkGraphicsQueue);
-        vkGetDeviceQueue(m_VkLogicalDevice, Vulkan::Get().physicalDevice->GPUProperties.presentFamily.value(), 0, &m_VkPresentQueue);
+        vkGetDeviceQueue(m_VkLogicalDevice, Vulkan::Get()->physicalDevice->GPUProperties.graphicsFamily.value(), 0, &m_VkGraphicsQueue);
+        vkGetDeviceQueue(m_VkLogicalDevice, Vulkan::Get()->physicalDevice->GPUProperties.presentFamily.value(), 0, &m_VkPresentQueue);
     }
 
     LogicalDevice::~LogicalDevice()
