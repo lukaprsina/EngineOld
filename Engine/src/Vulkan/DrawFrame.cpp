@@ -1,5 +1,6 @@
 #include "Vulkan/Vulkan.h"
 #include "Vulkan/Device.h"
+#include "Vulkan/Buffers.h"
 #include "Vulkan/SwapChain.h"
 #include "Vulkan/SyncObjects.h"
 #include "Vulkan/Commands.h"
@@ -8,7 +9,7 @@
 
 namespace eng
 {
-    void Vulkan::DrawFrame()
+    void Vulkan::DrawFrame(float &time)
     {
         auto logicalDevice = Vulkan::Get().logicalDevice->m_VkLogicalDevice;
         auto swapChain = Vulkan::Get().swapChain->m_VkSwapChain;
@@ -41,6 +42,8 @@ namespace eng
         }
 
         imagesInFlight[imageIndex] = inFlightFences[CurrentFrame];
+
+        Vulkan::Get().uniformBuffer->OnUpdate(imageIndex, time);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;

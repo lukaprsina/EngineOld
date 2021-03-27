@@ -2,9 +2,9 @@
 #include "Vulkan/Framebuffers.h"
 #include "Vulkan/Device.h"
 #include "Vulkan/SwapChain.h"
-#include "Vulkan/RenderPass.h"
 #include "Vulkan/GraphicsPipeline.h"
 #include "Vulkan/Buffers.h"
+#include "Vulkan/Descriptors.h"
 
 namespace eng
 {
@@ -89,6 +89,8 @@ namespace eng
             scissor.offset = {0, 0};
             scissor.extent = swapChainExtent;
             vkCmdSetScissor(m_VkCommandBuffers[i], 0, 1, &scissor);
+
+            vkCmdBindDescriptorSets(m_VkCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, Vulkan::Get().graphicsPipeline->m_VkPipelineLayout, 0, 1, &Vulkan::Get().descriptorSets->m_VkDescriptorSets[i], 0, nullptr);
 
             vkCmdDrawIndexed(m_VkCommandBuffers[i], Vulkan::Get().m_Indices.size(), 1, 0, 0, 0);
 

@@ -32,4 +32,17 @@ namespace eng
         VkBuffer m_VkIndexBuffer;
         VmaAllocation m_VmaIndexAllocation;
     };
+
+    class UniformBuffer
+    {
+    public:
+        UniformBuffer();
+        ~UniformBuffer();
+
+        std::vector<VkBuffer> m_VkUniformBuffers;
+        std::vector<VmaAllocation> m_VmaUniformAllocations;
+        MVP m_MVP;
+
+        void OnUpdate(uint32_t currentImage, float &time);
+    };
 }

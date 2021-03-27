@@ -1,4 +1,5 @@
 #include "Vulkan/Buffers.h"
+#include "Vulkan/SwapChain.h"
 #include "Vulkan/Instance.h"
 #include "Vulkan/Device.h"
 #include "Vulkan/Commands.h"
@@ -159,5 +160,55 @@ namespace eng
     IndexBuffer::~IndexBuffer()
     {
         vmaDestroyBuffer(Vulkan::Get().memory->m_VmaMemory, m_VkIndexBuffer, m_VmaIndexAllocation);
+    }
+
+    UniformBuffer::UniformBuffer()
+    {
+        auto memory = Vulkan::Get().memory->m_VmaMemory;
+        auto indices = Vulkan::Get().m_Indices;
+        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
+        VkDeviceSize bufferSize = sizeof(MVP);
+
+        m_VkUniformBuffers.resize(swapChainImages.size());
+        m_VmaUniformAllocations.resize(swapChainImages.size());
+
+        for (size_t i = 0; i < swapChainImages.size(); i++)
+        {
+            VmaAllocationCreateInfo uniformAllocInfo{};
+            uniformAllocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+            uniformAllocInfo.requiredFlags = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+
+            VkBufferCreateInfo uniformBufferInfo{};
+            uniformBufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+            uniformBufferInfo.size = bufferSize;
+            uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            uniformBufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+            vmaCreateBuffer(memory, &uniformBufferInfo, &uniformAllocInfo,
+                            &m_VkUniformBuffers[i], &m_VmaUniformAllocations[i], nullptr);
+        }
+    }
+
+    UniformBuffer::~UniformBuffer()
+    {
+        auto swapChainImages = Vulkan::Get().swapChain->m_VkSwapChainImages;
+        for (size_t i = 0; i < swapChainImages.size(); i++)
+            vmaDestroyBuffer(Vulkan::Get().memory->m_VmaMemory, m_VkUniformBuffers[i], m_VmaUniformAllocations[i]);
+    }
+
+    void UniformBuffer::OnUpdate(uint32_t currentImage, float &time)
+    {
+        auto swapChainExtent = Vulkan::Get().swapChain->m_VkSwapChainExtent;
+        auto memory = Vulkan::Get().memory->m_VmaMemory;
+
+        MVP mvp;
+        mvp.Model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        mvp.View = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        mvp.Proj = glm::perspective(glm::radians(45.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
+        void *data;
+
+        vmaMapMemory(memory, m_VmaUniformAllocations[currentImage], &data);
+        memcpy(data, &mvp, sizeof(MVP));
+        vmaUnmapMemory(memory, m_VmaUniformAllocations[currentImage]);
     }
 }

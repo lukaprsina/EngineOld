@@ -1,6 +1,7 @@
 #include "Vulkan/GraphicsPipeline.h"
 #include "Vulkan/Device.h"
-#include "Vulkan/RenderPass.h"
+#include "Vulkan/Framebuffers.h"
+#include "Vulkan/Descriptors.h"
 
 namespace eng
 {
@@ -89,7 +90,8 @@ namespace eng
 
         VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        pipelineLayoutInfo.setLayoutCount = 0;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &Vulkan::Get().descriptorSetLayout->m_VkDescriptorSetLayout;
         pipelineLayoutInfo.pushConstantRangeCount = 0;
 
         if (vkCreatePipelineLayout(Vulkan::Get().logicalDevice->m_VkLogicalDevice, &pipelineLayoutInfo, nullptr, &m_VkPipelineLayout) != VK_SUCCESS)

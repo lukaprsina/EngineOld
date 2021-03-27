@@ -38,8 +38,13 @@ namespace eng
     {
         while (m_Running)
         {
+            static auto startTime = std::chrono::high_resolution_clock::now();
+
+            auto currentTime = std::chrono::high_resolution_clock::now();
+            float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
             GLFW::OnUpdate();
-            Vulkan::OnUpdate();
+            Vulkan::OnUpdate(time);
         }
     }
 

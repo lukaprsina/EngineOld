@@ -4,8 +4,12 @@
 
 #include <vulkan/vulkan.h>
 #include "GLFW/GLFW.h"
-#include "glm/glm.hpp"
 #include "vk_mem_alloc.h"
+
+#define GLM_FORCE_RADIANS
+#define GLM_LEFT_HANDED
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
@@ -19,12 +23,16 @@ namespace eng
     class SwapChain;
     class ImageViews;
     class RenderPass;
+    class DescriptorSetLayout;
     class GraphicsPipeline;
     class Framebuffers;
     class CommandPool;
     class Memory;
     class VertexBuffer;
     class IndexBuffer;
+    class UniformBuffer;
+    class DescriptorPool;
+    class DescriptorSets;
     class CommandBuffers;
     class SyncObjects;
 
@@ -46,8 +54,8 @@ namespace eng
 
     struct Vertex
     {
-        glm::vec2 position;
-        glm::vec3 color;
+        glm::vec2 Position;
+        glm::vec3 Color;
 
         static VkVertexInputBindingDescription getBindingDescription()
         {
@@ -64,14 +72,21 @@ namespace eng
             attributeDescriptions[0].binding = 0;
             attributeDescriptions[0].location = 0;
             attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
-            attributeDescriptions[0].offset = offsetof(Vertex, position);
+            attributeDescriptions[0].offset = offsetof(Vertex, Position);
 
             attributeDescriptions[1].binding = 0;
             attributeDescriptions[1].location = 1;
             attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-            attributeDescriptions[1].offset = offsetof(Vertex, color);
+            attributeDescriptions[1].offset = offsetof(Vertex, Color);
             return attributeDescriptions;
         }
+    };
+
+    struct MVP
+    {
+        alignas(16) glm::mat4 Model;
+        alignas(16) glm::mat4 View;
+        alignas(16) glm::mat4 Proj;
     };
 
     class Vulkan
@@ -83,16 +98,16 @@ namespace eng
         Vulkan(const Vulkan &) = delete;
         Vulkan &operator=(Vulkan const &) = delete;
 
-        static Vulkan &Get()
+        static Vulkan *&Get()
         {
-            static Vulkan instance;
+            static Vulkan *instance = new Vulkan;
             return instance;
         }
 
         static void Init() { return Get().IInit(); }
         static void Init(VulkanSettings &s) { return Get().IInit(s); }
         static void Shutdown() { return Get().IShutdown(); }
-        static void OnUpdate() { return Get().IOnUpdate(); }
+        static void OnUpdate(float &time) { return Get().IOnUpdate(time); }
         static void OnWindowResize(WindowResizeEvent &e) { return Get().IOnWindowResize(e); }
         static void ChangeSettings(VulkanSettings &s) { return Get().IChangeSettings(s); }
 
@@ -116,12 +131,16 @@ namespace eng
         std::unique_ptr<SwapChain> swapChain;
         std::unique_ptr<ImageViews> imageViews;
         std::unique_ptr<RenderPass> renderPass;
+        std::unique_ptr<DescriptorSetLayout> descriptorSetLayout;
         std::unique_ptr<GraphicsPipeline> graphicsPipeline;
         std::unique_ptr<Framebuffers> framebuffers;
         std::unique_ptr<CommandPool> commandPool;
         std::unique_ptr<Memory> memory;
         std::unique_ptr<VertexBuffer> vertexBuffer;
         std::unique_ptr<IndexBuffer> indexBuffer;
+        std::unique_ptr<UniformBuffer> uniformBuffer;
+        std::unique_ptr<DescriptorPool> descriptorPool;
+        std::unique_ptr<DescriptorSets> descriptorSets;
         std::unique_ptr<CommandBuffers> commandBuffers;
         std::unique_ptr<SyncObjects> syncObjects;
 
@@ -131,13 +150,13 @@ namespace eng
         void IInit();
         void IInit(VulkanSettings &s);
         void IShutdown();
-        void IOnUpdate();
+        void IOnUpdate(float &time);
         void IOnWindowResize(WindowResizeEvent &e);
         void IChangeSettings(VulkanSettings &s);
 
         size_t CurrentFrame = 0;
         bool m_FramebufferResized = false;
         void RecreateSwapChain();
-        void DrawFrame();
+        void DrawFrame(float &time);
     };
 }
