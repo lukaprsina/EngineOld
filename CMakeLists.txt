@@ -18,4 +18,28 @@ endif (UNIX)
 add_subdirectory("Engine/vendor/GLFW")
 add_subdirectory("Engine/vendor/spdlog")
 add_subdirectory("Engine/vendor/glm")
+#add_subdirectory("EngineSDK")
+
+
+project(EngineSDK VERSION 1.0)
+
+add_library(EngineSDK STATIC
+    "EngineSDK/src/Core/EngineSDK.cpp"
+)
+
+target_include_directories(EngineSDK
+    PUBLIC ${CMAKE_SOURCE_DIR}/EngineSDK/src
+    INTERFACE ${CMAKE_SOURCE_DIR}/EngineSDK/include
+    INTERFACE ${CMAKE_SOURCE_DIR}/EngineSDK/src
+)
+
+target_compile_definitions(EngineSDK
+    PUBLIC ${ENG_PLATFORM}
+)
+
+target_compile_options(EngineSDK
+    PRIVATE -fPIC
+)
+
+add_subdirectory("Sandbox")
 add_subdirectory("Engine")

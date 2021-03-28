@@ -35,15 +35,10 @@ namespace eng
 
         static void Init(WindowSettings settings) { return Get().IInit(settings); }
         static void Shutdown() { return Get().IShutdown(); }
-
         static void OnUpdate() { return Get().IOnUpdate(); }
-
         static void SetEventCallback(const std::function<void(Event &)> &callback) { return Get().ISetEventCallback(callback); }
-
         static void GetRequiredInstanceExtensions(const char **&GLFWExtensions, uint32_t &GLFWExtensionCount) { return Get().IGetRequiredInstanceExtensions(GLFWExtensions, GLFWExtensionCount); }
-
         static void CreateWindowSurface(VkInstance &instance, VkSurfaceKHR &surface) { return Get().ICreateWindowSurface(instance, surface); }
-
         static void GetFramebufferSize(int &width, int &height) { return Get().IGetFramebufferSize(width, height); }
 
     private:

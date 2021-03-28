@@ -11,13 +11,20 @@ namespace eng
     {
         Log::Init();
 
+        PluginManager plugin("/home/luka/dev/c++/Engine/build/bin/libSandbox.so", RTLD_NOW);
+        plugin.Open();
+
+        typedef EngineSDK *(*PFNCREATEMYCLASS);
+        PFNCREATEMYCLASS func = (PFNCREATEMYCLASS)plugin.Lookup("Create");
+        if (func)
+            (*func)->SayHello();
+
         WindowSettings windowSettings;
 
         GLFW::Init(windowSettings);
         GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
         VulkanSettings vulkanSettings;
-        // vulkanSettings.SwapSurfacePresentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
 
         Vulkan::Init(vulkanSettings);
     }

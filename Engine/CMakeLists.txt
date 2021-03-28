@@ -2,6 +2,7 @@ add_executable(Engine
     "src/Core/Application.cpp"
     "src/Core/Log.cpp"
     "src/Scene/Scene.cpp"
+    "src/PluginManager/PluginManager.cpp"
     
     "src/Vulkan/Vulkan.cpp"
     "src/Vulkan/IsSubset.cpp"
@@ -27,10 +28,12 @@ set(msvc_compile "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
 target_include_directories(Engine
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC ${CMAKE_SOURCE_DIR}/EngineSDK/include
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/VMA/src
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
+    PRIVATE $<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Include>
     )
 
 target_precompile_headers(Engine
@@ -40,10 +43,6 @@ target_precompile_headers(Engine
 target_compile_options(Engine
     PRIVATE "$<${gcc_like_compile}:$<BUILD_INTERFACE:-Wall;-Wextra;-pedantic>>"
     PRIVATE "$<${msvc_compile}:$<BUILD_INTERFACE:-W3>>"
-    )
-
-target_include_directories(Engine
-    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Include>"
     )
 
 target_link_directories(Engine
