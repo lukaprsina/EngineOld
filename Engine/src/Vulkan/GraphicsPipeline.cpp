@@ -7,11 +7,11 @@ namespace eng
 {
     GraphicsPipeline::GraphicsPipeline()
     {
-        std::vector<char> *vertShaderCode = ReadFile("../assets/shaders/vert.spv");
-        std::vector<char> *fragShaderCode = ReadFile("../assets/shaders/frag.spv");
+        std::vector<char> vertShaderCode = ReadFile("../assets/shaders/vert.spv");
+        std::vector<char> fragShaderCode = ReadFile("../assets/shaders/frag.spv");
 
-        VkShaderModule vertShaderModule = CreateShaderModule(*vertShaderCode);
-        VkShaderModule fragShaderModule = CreateShaderModule(*fragShaderCode);
+        VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
+        VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);
 
         VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
         vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -120,9 +120,6 @@ namespace eng
             throw std::runtime_error("failed to create graphics pipeline!");
         }
 
-        delete vertShaderCode;
-        delete fragShaderCode;
-
         vkDestroyShaderModule(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, fragShaderModule, nullptr);
         vkDestroyShaderModule(Vulkan::Get()->logicalDevice->m_VkLogicalDevice, vertShaderModule, nullptr);
     }
@@ -149,7 +146,7 @@ namespace eng
         return shaderModule;
     }
 
-    std::vector<char> *GraphicsPipeline::ReadFile(const std::string &filename)
+    std::vector<char> GraphicsPipeline::ReadFile(const std::string &filename)
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -159,10 +156,10 @@ namespace eng
         }
 
         size_t fileSize = (size_t)file.tellg();
-        std::vector<char> *buffer = new std::vector<char>(fileSize);
+        std::vector<char> buffer(fileSize);
 
         file.seekg(0);
-        file.read(buffer->data(), fileSize);
+        file.read(buffer.data(), fileSize);
         file.close();
 
         return buffer;

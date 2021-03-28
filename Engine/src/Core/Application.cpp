@@ -17,6 +17,7 @@ namespace eng
         GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
         VulkanSettings vulkanSettings;
+        // vulkanSettings.SwapSurfacePresentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
 
         Vulkan::Init(vulkanSettings);
     }

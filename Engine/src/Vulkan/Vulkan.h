@@ -124,25 +124,25 @@ namespace eng
         const std::vector<Vertex> m_Vertices;
         const std::vector<uint16_t> m_Indices;
 
-        std::unique_ptr<Instance> instance;
-        std::unique_ptr<DebugMessenger> debugMessenger;
-        std::unique_ptr<PhysicalDevice> physicalDevice;
-        std::unique_ptr<LogicalDevice> logicalDevice;
-        std::unique_ptr<SwapChain> swapChain;
-        std::unique_ptr<ImageViews> imageViews;
-        std::unique_ptr<RenderPass> renderPass;
-        std::unique_ptr<DescriptorSetLayout> descriptorSetLayout;
-        std::unique_ptr<GraphicsPipeline> graphicsPipeline;
-        std::unique_ptr<Framebuffers> framebuffers;
-        std::unique_ptr<CommandPool> commandPool;
-        std::unique_ptr<Memory> memory;
-        std::unique_ptr<VertexBuffer> vertexBuffer;
-        std::unique_ptr<IndexBuffer> indexBuffer;
-        std::unique_ptr<UniformBuffer> uniformBuffer;
-        std::unique_ptr<DescriptorPool> descriptorPool;
-        std::unique_ptr<DescriptorSets> descriptorSets;
-        std::unique_ptr<CommandBuffers> commandBuffers;
-        std::unique_ptr<SyncObjects> syncObjects;
+        Instance *instance;
+        DebugMessenger *debugMessenger;
+        PhysicalDevice *physicalDevice;
+        LogicalDevice *logicalDevice;
+        SwapChain *swapChain;
+        ImageViews *imageViews;
+        RenderPass *renderPass;
+        DescriptorSetLayout *descriptorSetLayout;
+        GraphicsPipeline *graphicsPipeline;
+        Framebuffers *framebuffers;
+        CommandPool *commandPool;
+        Memory *memory;
+        VertexBuffer *vertexBuffer;
+        IndexBuffer *indexBuffer;
+        UniformBuffer *uniformBuffer;
+        DescriptorPool *descriptorPool;
+        DescriptorSets *descriptorSets;
+        CommandBuffers *commandBuffers;
+        SyncObjects *syncObjects;
 
         const size_t MAX_FRAMES_IN_FLIGHT = 2;
 

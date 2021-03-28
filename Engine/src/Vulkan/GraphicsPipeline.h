@@ -14,6 +14,6 @@ namespace eng
         VkPipeline m_VkGraphicsPipeline;
 
         VkShaderModule CreateShaderModule(const std::vector<char> &code);
-        std::vector<char> *ReadFile(const std::string &filename);
+        std::vector<char> ReadFile(const std::string &filename);
     };
 }

@@ -25,7 +25,17 @@ namespace eng
         glfwSetErrorCallback(GLFWErrorCallback);
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_Window = glfwCreateWindow(m_WindowSettings.Width, m_WindowSettings.Height, m_WindowSettings.Title.c_str(), nullptr, nullptr);
+
+        if (settings.Fullscreen)
+        {
+            GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+            const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+            m_Window = glfwCreateWindow(mode->width, mode->height, m_WindowSettings.Title.c_str(), monitor, nullptr);
+        }
+        else
+        {
+            m_Window = glfwCreateWindow(m_WindowSettings.Width, m_WindowSettings.Height, m_WindowSettings.Title.c_str(), nullptr, nullptr);
+        }
         glfwSetWindowUserPointer(m_Window, &m_WindowSettings);
 
         SetCallbacks();

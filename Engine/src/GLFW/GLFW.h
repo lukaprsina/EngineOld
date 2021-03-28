@@ -10,6 +10,7 @@ namespace eng
         std::string Title = "Engine";
         unsigned int Width = 1280;
         unsigned int Height = 920;
+        bool Fullscreen = false;
 
         unsigned int Framerate = 0;
         bool Focused = true;

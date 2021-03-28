@@ -129,7 +129,7 @@ namespace eng
     }
 
     DebugMessenger::DebugMessenger()
-        : m_VkDebugMessenger{}
+        : m_VkDebugMessenger()
     {
         if (!Vulkan::AreValidationLayersEnabled())
             return;
