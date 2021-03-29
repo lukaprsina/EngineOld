@@ -8,10 +8,6 @@ project(Engine VERSION 1.0)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-#if (POLICY CMP0077)
-#    cmake_policy(SET CMP0077 NEW)
-#endif()
-
 if (WIN32)
 	set(ENG_PLATFORM ENG_PLATFORM_WINDOWS)
 endif (WIN32)
@@ -27,5 +23,5 @@ add_subdirectory("Sandbox")
 add_subdirectory("Engine")
 
 install(
-    TARGETS EngineSDK 
+    TARGETS EngineSDK glfw spdlog glm Sandbox
     )

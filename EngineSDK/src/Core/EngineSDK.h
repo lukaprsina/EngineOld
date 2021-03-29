@@ -6,7 +6,6 @@ namespace eng
     {
     public:
         virtual ~EngineSDK();
-
         virtual void SayHello() = 0;
     };
 }

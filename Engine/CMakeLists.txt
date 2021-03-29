@@ -1,8 +1,7 @@
 add_executable(Engine
     "src/Core/Application.cpp"
     "src/Core/Log.cpp"
-    "src/Scene/Scene.cpp"
-    "src/PluginManager/PluginManager.cpp"
+    "src/Scene/Scene.cpp"    
     
     "src/Vulkan/Vulkan.cpp"
     "src/Vulkan/IsSubset.cpp"
@@ -36,6 +35,16 @@ target_include_directories(Engine
     PRIVATE $<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Include>
     )
 
+if (ENG_PLATFORM_WIN)
+    set(DLLOADER_SRC Core/DLLoader/Windows/DLLoader.h)
+    include_directories(Core/DLLoader/Windows/)
+endif(ENG_PLATFORM_WIN)
+    
+if(ENG_PLATFORM_UNIX)
+    set(DLLOADER_SRC Core/DLLoader/Unix/DLLoader.h)
+    include_directories(Core/DLLoader/Unix/)
+endif(ENG_PLATFORM_UNIX)
+
 target_precompile_headers(Engine
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h
 	)
@@ -55,6 +64,7 @@ target_link_libraries(Engine
     PRIVATE spdlog::spdlog_header_only
     PRIVATE vulkan
     PRIVATE glm
+    PRIVATE libltdl.so
     )
 
 file(GLOB SHADER_SRC

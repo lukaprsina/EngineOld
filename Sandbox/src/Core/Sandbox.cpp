@@ -15,12 +15,17 @@ namespace eng
     {
         std::cout << "Hello from the sandbox\n";
     }
+}
 
-    extern "C"
+extern "C"
+{
+    ENG_API eng::EngineSDK *allocator()
     {
-        ENG_API EngineSDK *Create()
-        {
-            return new Sandbox;
-        }
+        return new eng::Sandbox;
+    }
+
+    ENG_API void deleter(eng::EngineSDK *ptr)
+    {
+        delete ptr;
     }
 }

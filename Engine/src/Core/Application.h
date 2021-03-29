@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Log.h"
-#include "PluginManager/PluginManager.h"
+#include "Core/PluginLoader.h"
 #include "GLFW/GLFW.h"
 #include "Vulkan/Vulkan.h"
 #include "EngineSDK.h"

@@ -11,13 +11,12 @@ namespace eng
     {
         Log::Init();
 
-        PluginManager plugin(fs::current_path().append("libSandbox.so").c_str(), RTLD_NOW);
-        plugin.Open();
+        lt_dlinit();
 
-        /* typedef EngineSDK *(*PFNCREATEMYCLASS);
-        PFNCREATEMYCLASS func = (PFNCREATEMYCLASS)plugin.Lookup("Create");
-        if (func)
-            (*func)->SayHello(); */
+        Plugin<EngineSDK> plugin(fs::current_path().append("libSandbox").c_str());
+        plugin.DLOpenLib();
+        std::shared_ptr<EngineSDK> Sandbox = plugin.DLGetInstance();
+        Sandbox->SayHello();
 
         WindowSettings windowSettings;
 
@@ -33,6 +32,7 @@ namespace eng
     {
         Vulkan::Shutdown();
         GLFW::Shutdown();
+        lt_dlexit();
     }
 
     void Application::OnEvent(Event &e)

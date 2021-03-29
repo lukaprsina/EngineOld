@@ -11,7 +11,7 @@ target_include_directories(Sandbox
 
 
 target_compile_definitions(EngineSDK
-    PUBLIC ${ENG_PLATFORM}
+    PUBLIC ${ENG_PLATFORM}    
     )
 
 target_link_libraries(Sandbox

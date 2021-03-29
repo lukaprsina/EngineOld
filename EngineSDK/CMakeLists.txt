@@ -6,8 +6,7 @@ add_library(EngineSDK
 
 target_include_directories(EngineSDK
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
-    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include
-    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include    
 )
 
 target_compile_definitions(EngineSDK

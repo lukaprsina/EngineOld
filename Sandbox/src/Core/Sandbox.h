@@ -1,6 +1,6 @@
 #pragma once
 
-// #define ENG_BUILD_DLL
+#define ENG_BUILD_DLL
 #include "EngineSDK.h"
 #include "Core/Base.h"
 
