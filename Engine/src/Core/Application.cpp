@@ -14,9 +14,11 @@ namespace eng
         lt_dlinit();
 
         Plugin<EngineSDK> plugin(fs::current_path().append("libSandbox").c_str());
-        plugin.DLOpenLib();
-        std::shared_ptr<EngineSDK> Sandbox = plugin.DLGetInstance();
+        plugin.Open();
+        std::shared_ptr<EngineSDK> Sandbox = plugin.Get();
         Sandbox->SayHello();
+        Sandbox.reset();
+        plugin.Close();
 
         WindowSettings windowSettings;
 

@@ -15,7 +15,7 @@ public:
 
     ~Plugin() = default;
 
-    void DLOpenLib()
+    void Open()
     {
         if (!(m_Handle = lt_dlopenext(m_Path.c_str())))
         {
@@ -23,7 +23,7 @@ public:
         }
     }
 
-    std::shared_ptr<T> DLGetInstance()
+    std::shared_ptr<T> Get()
     {
         using allocClass = T *(*)();
         using deleteClass = void (*)(T *);
@@ -35,7 +35,7 @@ public:
 
         if (!allocFunc || !deleteFunc)
         {
-            DLCloseLib();
+            Close();
             std::cerr << lt_dlerror() << std::endl;
         }
 
@@ -44,7 +44,7 @@ public:
             [deleteFunc](T *p) { deleteFunc(p); });
     }
 
-    void DLCloseLib()
+    void Close()
     {
         if (lt_dlclose(m_Handle) != 0)
         {
