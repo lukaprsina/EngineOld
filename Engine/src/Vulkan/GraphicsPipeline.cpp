@@ -7,8 +7,10 @@ namespace eng
 {
     GraphicsPipeline::GraphicsPipeline()
     {
-        std::vector<char> vertShaderCode = ReadFile("../assets/shaders/vert.spv");
-        std::vector<char> fragShaderCode = ReadFile("../assets/shaders/frag.spv");
+        std::vector<char> vertShaderCode = ReadFile(
+            fs::current_path().append("../assets/shaders/vert.spv").c_str());
+        std::vector<char> fragShaderCode = ReadFile(
+            fs::current_path().append("../assets/shaders/frag.spv").c_str());
 
         VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);

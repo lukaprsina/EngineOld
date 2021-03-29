@@ -14,6 +14,4 @@ target_compile_definitions(EngineSDK
     PUBLIC ${ENG_PLATFORM}
 )
 
-target_compile_options(EngineSDK
-    PRIVATE -fPIC
-)
+set_property(TARGET EngineSDK PROPERTY POSITION_INDEPENDENT_CODE ON)

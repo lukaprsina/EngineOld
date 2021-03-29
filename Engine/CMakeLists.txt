@@ -54,6 +54,7 @@ target_link_libraries(Engine
     PRIVATE glfw
     PRIVATE spdlog::spdlog_header_only
     PRIVATE vulkan
+    PRIVATE glm
     )
 
 file(GLOB SHADER_SRC

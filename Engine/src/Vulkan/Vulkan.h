@@ -14,6 +14,8 @@
 #include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
 
+namespace fs = std::filesystem;
+
 namespace eng
 {
     class Instance;

@@ -11,13 +11,13 @@ namespace eng
     {
         Log::Init();
 
-        PluginManager plugin("/home/luka/dev/c++/Engine/build/bin/libSandbox.so", RTLD_NOW);
+        PluginManager plugin(fs::current_path().append("libSandbox.so").c_str(), RTLD_NOW);
         plugin.Open();
 
-        typedef EngineSDK *(*PFNCREATEMYCLASS);
+        /* typedef EngineSDK *(*PFNCREATEMYCLASS);
         PFNCREATEMYCLASS func = (PFNCREATEMYCLASS)plugin.Lookup("Create");
         if (func)
-            (*func)->SayHello();
+            (*func)->SayHello(); */
 
         WindowSettings windowSettings;
 
@@ -72,7 +72,7 @@ namespace eng
 
 int main()
 {
-    eng::Application *app = new eng::Application;
+    eng::Application *app = new eng::Application();
     app->Run();
     delete app;
 
