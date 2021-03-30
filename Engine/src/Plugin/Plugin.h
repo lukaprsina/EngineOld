@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "EngineSDK.h"
 
 #ifdef ENG_PLATFORM_WINDOWS
 
@@ -35,22 +36,29 @@ public:
         auto deleteFunc = reinterpret_cast<deleteClass>(
             GetProcAddress(m_Handle, "deleter"));
 
-        if (!allocFunc || !deleteFunc)
+        if (!allocFunc)
         {
             Close();
-            std::cerr << "Can't find allocator or deleter symbol in " << m_Path << '\n';
+            std::cerr << "Can't find allocator symbol in " << m_Path << '\n';
+        }
+        else if (!deleteFunc)
+        {
+            Close();
+            std::cerr << "Can't find deleter symbol in " << m_Path << '\n';
         }
 
         return std::shared_ptr<T>(
             allocFunc(),
-            [deleteFunc](T* p) { deleteFunc(p); });
+            [deleteFunc](T* p) { deleteFunc(p); }
+        );
     }
 
     void Close()
-    {
-        if (FreeLibrary(m_Handle) != 0)
+    {        
+        if (!FreeLibrary(m_Handle))
         {
-            std::cerr << "Can't find allocator or deleter symbol in " << m_Path << '\n';
+            std::cerr << "Can't close " << m_Path << '\n';
+            std::cerr << GetLastError() << '\n';
         }
     }
 

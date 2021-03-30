@@ -16,10 +16,10 @@ namespace eng
         plugin.Open();
         std::shared_ptr<EngineSDK> Sandbox = plugin.Get();
         Sandbox->SayHello();
-        // Sandbox.reset();
+        Sandbox.reset();
         plugin.Close();
 
-        WindowSettings windowSettings;
+        WindowSettings windowSettings;        
 
         GLFW::Init(windowSettings);
         GLFW::SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
