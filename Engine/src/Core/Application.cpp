@@ -11,13 +11,12 @@ namespace eng
     {
         Log::Init();
 
-        lt_dlinit();
-
-        Plugin<EngineSDK> plugin(fs::current_path().append("libSandbox").c_str());
+        /*Plugin<EngineSDK> plugin(fs::current_path().append("libSandbox").c_str());*/
+        Plugin<EngineSDK> plugin("C:/Users/User/Desktop/Engine/out/build/x64-Debug/bin/Sandbox.dll");
         plugin.Open();
         std::shared_ptr<EngineSDK> Sandbox = plugin.Get();
         Sandbox->SayHello();
-        Sandbox.reset();
+        // Sandbox.reset();
         plugin.Close();
 
         WindowSettings windowSettings;
@@ -34,7 +33,6 @@ namespace eng
     {
         Vulkan::Shutdown();
         GLFW::Shutdown();
-        lt_dlexit();
     }
 
     void Application::OnEvent(Event &e)

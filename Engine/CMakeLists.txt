@@ -3,24 +3,26 @@ add_executable(Engine
     "src/Core/Log.cpp"
     "src/Scene/Scene.cpp"    
     
-    "src/Vulkan/Vulkan.cpp"
-    "src/Vulkan/IsSubset.cpp"
-    "src/Vulkan/VMA.cpp"
+    "src/VulkanAPI/VulkanAPI.cpp"
+    "src/VulkanAPI/IsSubset.cpp"
+    "src/VulkanAPI/VMA.cpp"
 
-    "src/Vulkan/Instance.cpp"
-    "src/Vulkan/Device.cpp"
-    "src/Vulkan/SwapChain.cpp"
-    "src/Vulkan/GraphicsPipeline.cpp"
-    "src/Vulkan/Framebuffers.cpp"
-    "src/Vulkan/Commands.cpp"
-    "src/Vulkan/SyncObjects.cpp"
-    "src/Vulkan/DrawFrame.cpp"
-    "src/Vulkan/Buffers.cpp"
-    "src/Vulkan/Descriptors.cpp"
+    "src/VulkanAPI/Instance.cpp"
+    "src/VulkanAPI/Device.cpp"
+    "src/VulkanAPI/SwapChain.cpp"
+    "src/VulkanAPI/GraphicsPipeline.cpp"
+    "src/VulkanAPI/Framebuffers.cpp"
+    "src/VulkanAPI/Commands.cpp"
+    "src/VulkanAPI/SyncObjects.cpp"
+    "src/VulkanAPI/DrawFrame.cpp"
+    "src/VulkanAPI/Buffers.cpp"
+    "src/VulkanAPI/Descriptors.cpp"
 
     "src/GLFW/GLFW.cpp"
     "src/GLFW/SetCallbacks.cpp"    
     )
+
+find_package(Vulkan REQUIRED)
 
 set(gcc_like_compile "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
 set(msvc_compile "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
@@ -31,19 +33,10 @@ target_include_directories(Engine
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/VMA/src
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/libtool/libltdl
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
-    PRIVATE $<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Include>
+    PRIVATE ${Vulkan_INCLUDE_DIRS}    
     )
-
-if (ENG_PLATFORM_WIN)
-    set(DLLOADER_SRC Core/DLLoader/Windows/DLLoader.h)
-    include_directories(Core/DLLoader/Windows/)
-endif(ENG_PLATFORM_WIN)
-    
-if(ENG_PLATFORM_UNIX)
-    set(DLLOADER_SRC Core/DLLoader/Unix/DLLoader.h)
-    include_directories(Core/DLLoader/Unix/)
-endif(ENG_PLATFORM_UNIX)
 
 target_precompile_headers(Engine
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h
@@ -54,22 +47,20 @@ target_compile_options(Engine
     PRIVATE "$<${msvc_compile}:$<BUILD_INTERFACE:-W3>>"
     )
 
-target_link_directories(Engine
-    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Bin>"
-    PRIVATE "$<${msvc_compile}:C:/VulkanSDK/1.2.170.0/Lib>"
-    )
-
 target_link_libraries(Engine
     PRIVATE glfw
     PRIVATE spdlog::spdlog_header_only
-    PRIVATE vulkan
-    PRIVATE glm
-    PRIVATE libltdl.so
+    PRIVATE glm    
+    PRIVATE ${Vulkan_LIBRARIES}
     )
 
 file(GLOB SHADER_SRC
     assets/shaders/*.spv
 )
+
+target_compile_definitions(Engine
+    PUBLIC ${ENG_PLATFORM}
+    )
 
 foreach(shaderpath ${SHADER_SRC})
     get_filename_component(shader ${shaderpath} NAME)

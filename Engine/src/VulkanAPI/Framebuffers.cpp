@@ -1,6 +1,6 @@
-#include "Vulkan/Framebuffers.h"
-#include "Vulkan/SwapChain.h"
-#include "Vulkan/Device.h"
+#include "VulkanAPI/Framebuffers.h"
+#include "VulkanAPI/SwapChain.h"
+#include "VulkanAPI/Device.h"
 
 namespace eng
 {

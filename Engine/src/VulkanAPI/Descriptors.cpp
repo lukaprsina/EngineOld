@@ -1,7 +1,7 @@
-#include "Vulkan/Descriptors.h"
-#include "Vulkan/Buffers.h"
-#include "Vulkan/SwapChain.h"
-#include "Vulkan/Device.h"
+#include "VulkanAPI/Descriptors.h"
+#include "VulkanAPI/Buffers.h"
+#include "VulkanAPI/SwapChain.h"
+#include "VulkanAPI/Device.h"
 
 namespace eng
 {

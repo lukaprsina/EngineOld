@@ -10,3 +10,6 @@
 [submodule "Engine/vendor/VMA"]
 	path = Engine/vendor/VMA
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
+[submodule "Engine/vendor/libtool"]
+	path = Engine/vendor/libtool
+	url = https://github.com/frida/libtool

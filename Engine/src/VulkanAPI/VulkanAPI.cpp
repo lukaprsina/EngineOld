@@ -1,14 +1,14 @@
-#include "Vulkan/Vulkan.h"
+#include "VulkanAPI/VulkanAPI.h"
 
-#include "Vulkan/Instance.h"
-#include "Vulkan/Device.h"
-#include "Vulkan/SwapChain.h"
-#include "Vulkan/Descriptors.h"
-#include "Vulkan/GraphicsPipeline.h"
-#include "Vulkan/Framebuffers.h"
-#include "Vulkan/Commands.h"
-#include "Vulkan/Buffers.h"
-#include "Vulkan/SyncObjects.h"
+#include "VulkanAPI/Instance.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/SwapChain.h"
+#include "VulkanAPI/Descriptors.h"
+#include "VulkanAPI/GraphicsPipeline.h"
+#include "VulkanAPI/Framebuffers.h"
+#include "VulkanAPI/Commands.h"
+#include "VulkanAPI/Buffers.h"
+#include "VulkanAPI/SyncObjects.h"
 
 namespace eng
 {

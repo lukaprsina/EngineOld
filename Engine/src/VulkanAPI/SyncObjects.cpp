@@ -1,6 +1,6 @@
-#include "Vulkan/SyncObjects.h"
-#include "Vulkan/Device.h"
-#include "Vulkan/SwapChain.h"
+#include "VulkanAPI/SyncObjects.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/SwapChain.h"
 
 namespace eng
 {

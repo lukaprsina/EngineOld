@@ -1,16 +1,18 @@
-#include "Vulkan/GraphicsPipeline.h"
-#include "Vulkan/Device.h"
-#include "Vulkan/Framebuffers.h"
-#include "Vulkan/Descriptors.h"
+#include "VulkanAPI/GraphicsPipeline.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/Framebuffers.h"
+#include "VulkanAPI/Descriptors.h"
 
 namespace eng
 {
     GraphicsPipeline::GraphicsPipeline()
     {
-        std::vector<char> vertShaderCode = ReadFile(
-            fs::current_path().append("../assets/shaders/vert.spv").c_str());
+        /*std::vector<char> vertShaderCode = ReadFile(
+            fs::current_path().append("../assets/shaders/vert.spv").native().c_str());
         std::vector<char> fragShaderCode = ReadFile(
-            fs::current_path().append("../assets/shaders/frag.spv").c_str());
+            fs::current_path().append("../assets/shaders/frag.spv").c_str());*/
+        std::vector<char> vertShaderCode = ReadFile("../assets/shaders/vert.spv");
+        std::vector<char> fragShaderCode = ReadFile("../assets/shaders/frag.spv");
 
         VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);

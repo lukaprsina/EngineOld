@@ -1,8 +1,8 @@
-#include "Vulkan/Buffers.h"
-#include "Vulkan/SwapChain.h"
-#include "Vulkan/Instance.h"
-#include "Vulkan/Device.h"
-#include "Vulkan/Commands.h"
+#include "VulkanAPI/Buffers.h"
+#include "VulkanAPI/SwapChain.h"
+#include "VulkanAPI/Instance.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/Commands.h"
 
 namespace eng
 {

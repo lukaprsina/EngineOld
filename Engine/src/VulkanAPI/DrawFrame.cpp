@@ -1,9 +1,9 @@
-#include "Vulkan/Vulkan.h"
-#include "Vulkan/Device.h"
-#include "Vulkan/Buffers.h"
-#include "Vulkan/SwapChain.h"
-#include "Vulkan/SyncObjects.h"
-#include "Vulkan/Commands.h"
+#include "VulkanAPI/VulkanAPI.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/Buffers.h"
+#include "VulkanAPI/SwapChain.h"
+#include "VulkanAPI/SyncObjects.h"
+#include "VulkanAPI/Commands.h"
 
 #define MAX_FRAMES_IN_FLIGHT 2
 

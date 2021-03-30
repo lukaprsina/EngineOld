@@ -1,5 +1,5 @@
-#include "Vulkan/Device.h"
-#include "Vulkan/Instance.h"
+#include "VulkanAPI/Device.h"
+#include "VulkanAPI/Instance.h"
 
 namespace eng
 {
